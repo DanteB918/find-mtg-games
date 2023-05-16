@@ -13,7 +13,7 @@
         $id = Auth::id();
         
         ?>
-        <?php var_dump($user->name); ?>
+        <?php var_dump($user->username); ?>
         @if ($games)
         <ul>
                 @foreach($games as $game)

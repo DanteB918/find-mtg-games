@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
 {
+    public function showGames(): View
+    {
+        $games = DB::table('games')->orderby('date')->select('*')->get();
+        return view('games', compact('games'));
+    }
+    /*
+    *   Create Game logic
+    */
     public function createGameForm(): View
     {
         return view('game-form');
@@ -27,9 +35,5 @@ class GameController extends Controller
         DB::table('games')->insert($data);
         return view('game-form-submitted');
     }
-    public function showGames(): View
-    {
-        $games = DB::table('games')->orderby('date')->select('*')->get();
-        return view('games', compact('games'));
-    }
+
 }

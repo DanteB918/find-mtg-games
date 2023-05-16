@@ -5,6 +5,7 @@ use App\Models\Games;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
 {

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,20 +17,22 @@ use App\Http\Controllers\GameController;
 
 Route::get('/', function () {
     return view('home');
-    if(Auth::check()){
-        return redirect('/games');
-    }
+
 });
 
 Auth::routes();
 
+//User profile page
+Route::get('/profile/{id}', [UserController::class, 'findProfile'])->name('profile')->middleware('auth');
+
+
 //Create new game
-Route::get('/create-game', [GameController::class, 'createGameForm'])->name('createGameForm');
-Route::post('/create-game', [GameController::class, 'createGame'])->name('createGame');
+Route::get('/create-game', [GameController::class, 'createGameForm'])->name('createGameForm')->middleware('auth');;
+Route::post('/create-game', [GameController::class, 'createGame'])->name('createGame')->middleware('auth');;
 
 
 //Show All games
-Route::get('/games', [GameController::class, 'showGames'])->name('games');
+Route::get('/games', [GameController::class, 'showGames'])->name('games')->middleware('auth');;
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -1,8 +1,19 @@
 <?php use Illuminate\Support\Facades\Auth; ?>
-@include('header')
+@extends('layouts.app')
+
+@section('content')
+
     <body>
         <a href="{{ route('createGameForm') }}" class="href">Create a new Game</a>
         <h1>Games:</h1>
+        <?php 
+        $user = Auth::user();
+ 
+        // Get the currently authenticated user's ID...
+        $id = Auth::id();
+        
+        ?>
+        <?php var_dump($user->name); ?>
         @if ($games)
         <ul>
                 @foreach($games as $game)
@@ -23,4 +34,4 @@
         <p>No Games Found</p>
         @endif
     </body>
-@include('footer')
+@endsection

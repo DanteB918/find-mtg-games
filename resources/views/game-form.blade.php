@@ -1,4 +1,6 @@
-@include('header')
+@extends('layouts.app')
+
+@section('content')
 <a href="{{ route('games') }}">See All Games</a>
     <body style="display: flex; justify-content: center; align-items: center;">
         <form method="post" action="{{ route('createGame') }}" style="display:flex; flex-direction:column;">
@@ -14,4 +16,4 @@
             <input type="submit" />
         </form>
     </body>
-@include('footer')
+@endsection

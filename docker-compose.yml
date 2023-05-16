@@ -1,0 +1,11 @@
+version: '3'
+services:
+    mysql:
+       image: "mysql:5.7"
+       ports:
+         - "5505:3306"
+       environment:
+         MYSQL_DATABASE: laravel
+         MYSQL_ROOT_PASSWORD: "password"
+       volumes:
+         - ./mysql:/var/lib/mysql

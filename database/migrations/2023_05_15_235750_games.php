@@ -14,7 +14,7 @@ return new class extends Migration
         if (!Schema::hasTable('games')) {
             // Code to create table
             Schema::create('games', function (Blueprint $table) {
-                $table->increments('id');
+                $table->increments('id')->unique();
                 $table->time('time');
                 $table->date('date');
                 $table->integer('power_level');

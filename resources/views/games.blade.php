@@ -13,7 +13,8 @@
         $id = Auth::id();
         
         ?>
-        <?php var_dump($user->username); ?>
+        <?php //var_dump($user->username); ?>
+
         @if ($games)
         <ul>
                 @foreach($games as $game)
@@ -30,6 +31,25 @@
                 <?php endif; ?>
                 @endforeach
         </ul>
+        <?php
+        // Pagination logic
+        if(empty($_GET['page'])){
+            $next = 2;
+            $prev = null;
+        }else{
+            $current_page = $_GET['page'];
+            $next = $current_page +=1;
+            $prev = $current_page -= 2;
+        };
+
+
+
+        ?>
+        <?php if ($prev):?>
+            <a href="/games/?page=<?=$prev?>" class="btn">Previous</a>
+        <?php endif; ?>
+        <a href="/games/?page=<?=$next?>" class="btn">Next</a>
+
         @else
         <p>No Games Found</p>
         @endif

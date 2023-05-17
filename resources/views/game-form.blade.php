@@ -2,7 +2,7 @@
 
 @section('content')
 <a href="{{ route('games') }}">See All Games</a>
-    <body style="display: flex; justify-content: center; align-items: center;">
+    <section style="display: flex; justify-content: center; align-items: center;">
         <form method="post" action="{{ route('createGame') }}" style="display:flex; flex-direction:column;">
             <input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>"><input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
             <input type='time' name="time" placeholder="Time"/>
@@ -15,5 +15,5 @@
             <textarea name="description" placeholder="description"></textarea>
             <input type="submit" />
         </form>
-    </body>
+    </section>
 @endsection

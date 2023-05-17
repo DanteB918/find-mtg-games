@@ -13,8 +13,14 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
+                    <div class="row">
                     {{ __('You are logged in!') }}
+                    </div>
+                    <div class="row">
+                    {{ __('Games:') }}
+                    <p><a href = "{{ route('games') }}">Click Here</a> to see all games.</p>
+                    </div>
+                    
                 </div>
             </div>
         </div>

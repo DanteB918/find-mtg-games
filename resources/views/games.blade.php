@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <body>
+    <section>
         <a href="{{ route('createGameForm') }}" class="href">Create a new Game</a>
         <h1>Games:</h1>
         <?php 
@@ -61,5 +61,5 @@
         @else
         <p>No Games Found</p>
         @endif
-    </body>
+    </section>
 @endsection

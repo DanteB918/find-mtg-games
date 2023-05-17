@@ -25,6 +25,7 @@ return new class extends Migration
                 $table->string('description', 200);
                 $table->boolean('status');
                 $table->integer('created_by');
+                $table->json('current_players');
             });
         }
     }

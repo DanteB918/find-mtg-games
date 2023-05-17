@@ -24,11 +24,17 @@ class Games extends Model
         ->paginate(10)
         ->where('status', 1);
     }
-    public static function createGame($fields)
+    public static function createGame(array $fields)
     {
         $status = array('status' => 1, 'created_by' => Auth::id(), 'current_players' => [Auth::id()]); //Appending true status to model
         $all_fields = array_merge($fields, $status);
         $newGame = Games::create($all_fields);
         $newGame->refresh();
+    }
+    public static function currentPlayers(int $id)
+    {
+        $the_game = Games::where('id', $id)->first();
+        $the_game->refresh();
+        return $the_game->current_players;
     }
 }

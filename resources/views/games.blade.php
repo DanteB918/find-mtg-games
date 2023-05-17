@@ -1,6 +1,8 @@
 <?php 
 use Illuminate\Support\Facades\Auth;
 use \App\Models\User;
+use \App\Models\Games;
+
 ?>
 @extends('layouts.app')
 
@@ -36,7 +38,7 @@ use \App\Models\User;
                     @if ($games)
                     <div class="outter-games">
                             @foreach($games as $game)
-                            <?php if ($game->date >= date("Y-m-d")): ?>
+                            <?php if ($game->date >= date("Y-m-d") && count(Games::currentPlayers($game->id)) < $game->number_players): ?>
                                 <div class="inner-games row">
                                     <div class="inner-games__info col-md-8">
                                         {{__('Location:')}} {{ $game->state }}, {{$game->country}} <br />
@@ -48,7 +50,10 @@ use \App\Models\User;
                                         Created By: <a href="/profile/<?=$game->created_by?>">{{ User::findUser($game->created_by)->username; }}</a>
                                     </div>
                                     <div class="inner-games__options col-md-4">
-                                        <a href="#" class="btn btn-secondary">Request to come play!</a>
+                                       <?= count(Games::currentPlayers($game->id)); ?> out of {{ $game->number_players }} players found.
+                                        <div class="bottom">
+                                            <a href="#" class="btn btn-secondary">Request to come play!</a>
+                                        </div>
                                     </div>
                                 </div>
                             <?php endif; ?>

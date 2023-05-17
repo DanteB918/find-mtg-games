@@ -6,9 +6,11 @@ $current_user = Auth::id();
 ?>
 <div class="container">
     <div class="row">
-    <?php var_dump($user); ?>
         <p>{{$user->username}}</p>
-        <p>{{ $user->id }}</p>
+        <p>Location: {{ $user->state }}, {{ $user->country }}</p>
+        <p>Member Since: {{ $user->created_at }}</p>
+
+        
         <?php if($current_user === $user->id): //Show only if logged in user is same as current user. ?>
         <hr>
 

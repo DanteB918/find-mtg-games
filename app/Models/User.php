@@ -57,8 +57,13 @@ class User extends Authenticatable
         $user->email = $fields['email'];
         $user->state = $fields['state'];
         $user->country = $fields['country'];
-
         $user->update();
         $user->refresh();
+    }
+    public static function findUser(int $id)
+    {
+        $user = User::where('id', $id)->first();
+        $user->refresh();
+        return $user;
     }
 }

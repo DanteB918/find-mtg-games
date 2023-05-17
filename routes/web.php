@@ -16,7 +16,12 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    if(Auth::check()){
+        return view('home');
+    }else{
+        return view('front-page');
+    }
+    
 
 });
 

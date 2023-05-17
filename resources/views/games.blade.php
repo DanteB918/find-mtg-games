@@ -1,13 +1,19 @@
-<?php use Illuminate\Support\Facades\Auth; ?>
+<?php 
+use Illuminate\Support\Facades\Auth;
+use \App\Models\User;
+?>
 @extends('layouts.app')
 
 @section('content')
+<p align="center">We sort all games by date, time, and the results that are closest to you.</p>
+
 <div class="container">
     <div class="row justify-content-center">
     <div class="col-md-2">
         <div class="card">
+        <div class="card-header">{{ __('Game Options') }}</div>
             <div class="card-body" >
-                <a href="{{ route('createGameForm') }}" class="btn">Create a new Game</a>
+                <a href="{{ route('createGameForm') }}" class="btn btn-primary">Create a new Game</a>
             </div>
         </div>
     </div>
@@ -28,26 +34,35 @@
                     <?php //var_dump($user->username); ?>
                     
                     @if ($games)
-                    <ul>
+                    <div class="outter-games">
                             @foreach($games as $game)
                             <?php if ($game->date >= date("Y-m-d")): ?>
-                                <li>
-                                    {{ $game->state }}, {{$game->country}} <br />
-                                    When: {{$game->date}} at {{$game->time}} <br />
-                                    Power Level: {{$game->power_level}}<br />
-                                    Number of Players: {{$game->number_players}}<br />
-                                    Format: {{$game->format}} <br />
-                                    Description: {{$game->description}}<br />
-                                    <a href="#" class="btn">Request to come play!</a>
-                                </li>
+                                <div class="inner-games row">
+                                    <div class="inner-games__info col-md-8">
+                                        {{__('Location:')}} {{ $game->state }}, {{$game->country}} <br />
+                                        When: {{$game->date}} at {{$game->time}} <br />
+                                        Power Level: {{$game->power_level}}<br />
+                                        Number of Players: {{$game->number_players}}<br />
+                                        Format: {{$game->format}} <br />
+                                        Description: {{$game->description}}<br />
+                                        Created By: <a href="/profile/<?=$game->created_by?>">{{ User::findUser($game->created_by)->username; }}</a>
+                                    </div>
+                                    <div class="inner-games__options col-md-4">
+                                        <a href="#" class="btn btn-secondary">Request to come play!</a>
+                                    </div>
+                                </div>
                             <?php endif; ?>
                             @endforeach
-                    </ul>
+                    </div>
                     <?php
                     // Pagination logic
                     if(empty($_GET['page'])){
                         $next = 2;
                         $prev = null;
+                        //if less than 10 results on page, only going back is an option
+                        if (count($games) < 10){
+                            $next = null;
+                        }
                     }else{
                         $current_page = $_GET['page'];
                         $next = $current_page +=1;

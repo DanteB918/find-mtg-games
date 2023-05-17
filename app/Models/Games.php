@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Games extends Model
 {
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['id', 'time', 'date', 'state', 'country', 'number_players', 'description', 'status', 'power_level', 'format'];
+    protected $fillable = ['id', 'time', 'date', 'state', 'country', 'number_players', 'description', 'status', 'power_level', 'format', 'created_by'];
     protected $table = 'games';
 
     public static function getActiveGames()
@@ -22,7 +23,7 @@ class Games extends Model
     }
     public static function createGame($fields)
     {
-        $status = array('status' => 1 ); //Appending true status to model
+        $status = array('status' => 1, 'created_by' => Auth::id()); //Appending true status to model
         $all_fields = array_merge($fields, $status);
         $newGame = Games::create($all_fields);
         $newGame->refresh();

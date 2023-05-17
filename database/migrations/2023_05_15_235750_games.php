@@ -24,6 +24,7 @@ return new class extends Migration
                 $table->string('format', 30);
                 $table->string('description', 200);
                 $table->boolean('status');
+                $table->integer('created_by');
             });
         }
     }

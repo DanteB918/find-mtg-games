@@ -25,6 +25,9 @@ Auth::routes();
 //User profile page
 Route::get('/profile/{id}', [UserController::class, 'findProfile'])->name('profile')->middleware('auth');
 
+//Edit user
+Route::get('/profile/{id}/edit', [UserController::class, 'EditProfileView'])->name('editProfileGet')->middleware('auth');
+Route::post('/profile/edit-complete', [UserController::class, 'EditProfile'])->name('editProfilePost')->middleware('auth');
 
 //Create new game
 Route::get('/create-game', [GameController::class, 'createGameForm'])->name('createGameForm')->middleware('auth');;

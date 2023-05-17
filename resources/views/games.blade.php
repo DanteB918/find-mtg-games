@@ -14,7 +14,7 @@
         
         ?>
         <?php //var_dump($user->username); ?>
-
+        
         @if ($games)
         <ul>
                 @foreach($games as $game)
@@ -40,16 +40,24 @@
             $current_page = $_GET['page'];
             $next = $current_page +=1;
             $prev = $current_page -= 2;
+            
+            //if less than 10 results on page, only going back is an option
+            if (count($games) < 10){
+                $next = null;
+            }
+
+            
         };
 
 
 
         ?>
         <?php if ($prev):?>
-            <a href="/games/?page=<?=$prev?>" class="btn">Previous</a>
+            <a href="/games/?page=<?=$prev?>" class="btn">{{ __('Previous') }}</a>
         <?php endif; ?>
-        <a href="/games/?page=<?=$next?>" class="btn">Next</a>
-
+        <?php if ($next):?>
+            <a href="/games/?page=<?=$next?>" class="btn">{{ __('Next') }}</a>
+        <?php endif; ?>
         @else
         <p>No Games Found</p>
         @endif

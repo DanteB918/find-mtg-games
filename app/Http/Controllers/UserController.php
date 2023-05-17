@@ -21,20 +21,23 @@ class UserController extends Controller
     */
     public function EditProfileView(string $id): View //GET method
     {
-        if (Auth::id() === $id){
+        if (Auth::id() === intval($id)){ //if current user's id matches url id.
             $user = DB::table('users')->find($id);
-            return view('edit-profile');
+            //$user = User::where('id', $id);
+
+            return view('edit-profile', compact('user'));
         }else{
             return view('home');
         }
     }
     public function EditProfile(Request $request) //POST Method
     {
-        $name = $request->input('name');
+        /*$name = $request->input('name');
         $email = $request->input('email');
         $date = $request->input('date');
         $data=array('time'=>$time,"number_players"=>$number_players,"date"=>$date,"state"=>$state,"country"=>$country,"power_level"=>$power_level, "description"=>$description, "format"=>$format, "status"=>true);
-        DB::table('games')->insert($data);
+        DB::table('games')->insert($data);*/
+        User::editProfile($request->all());
         return view('game-form-submitted');
     }
 }

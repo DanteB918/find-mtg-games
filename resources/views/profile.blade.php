@@ -12,7 +12,7 @@ $current_user = Auth::id();
         <?php if($current_user === $user->id): //Show only if logged in user is same as current user. ?>
         <hr>
 
-            <a href="#">Edit Profile</a>    
+            <a href="/profile/{{$current_user}}/edit">Edit Profile</a>    
             
         <?php endif; ?>
         <p></p>

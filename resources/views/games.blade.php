@@ -41,7 +41,7 @@ use \App\Models\Games;
                             <?php 
                             $current_user_ids = Games::currentPlayers($game->id);
                              ?>
-                            <?php if ($game->date >= date("Y-m-d") && count($current_user_ids) < $game->number_players): ?>
+                            <?php if ($game->date >= date("Y-m-d") && $game->status === 1): ?>
                                 <?php 
                                 $players_in_game = User::showAllUsersInArray($current_user_ids); 
                                 $num_players_in_game = count($players_in_game);                               

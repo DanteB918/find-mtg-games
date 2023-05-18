@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -37,4 +37,21 @@ class Games extends Model
         $the_game->refresh();
         return $the_game->current_players;
     }
+    public static function addPlayerToGame(int $game_id)
+    {
+        $game = Games::where('id', $game_id)->first();
+        foreach ($game->current_players as $player){ //Check if player applying is already a part of the game.
+            if($player === Auth::id()){
+                return false;
+            }
+        }        
+        $current_users = $game->current_players;
+        
+        array_push($current_users, Auth::id());
+        $game->current_players = $current_users;
+
+        $game->update();
+        $game->refresh();
+    }
+
 }

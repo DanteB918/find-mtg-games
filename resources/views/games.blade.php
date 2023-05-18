@@ -38,7 +38,16 @@ use \App\Models\Games;
                     @if ($games)
                     <div class="outter-games">
                             @foreach($games as $game)
-                            <?php if ($game->date >= date("Y-m-d") && count(Games::currentPlayers($game->id)) < $game->number_players): ?>
+                            <?php 
+                            $current_user_ids = Games::currentPlayers($game->id);
+                             ?>
+                            <?php if ($game->date >= date("Y-m-d") && count($current_user_ids) < $game->number_players): ?>
+                                <?php 
+                                $players_in_game = User::showAllUsersInArray($current_user_ids); 
+                                $num_players_in_game = count($players_in_game);
+                                
+                                echo $players_in_game[0]->username;
+                                ?>
                                 <div class="inner-games row">
                                     <div class="inner-games__info col-md-8">
                                         {{__('Location:')}} {{ $game->state }}, {{$game->country}} <br />
@@ -50,9 +59,16 @@ use \App\Models\Games;
                                         Created By: <a href="/profile/<?=$game->created_by?>">{{ User::findUser($game->created_by)->username; }}</a>
                                     </div>
                                     <div class="inner-games__options col-md-4">
-                                       <?= count(Games::currentPlayers($game->id)); ?> out of {{ $game->number_players }} players found.
+                                        <p>Players in game: 
+                                            <?php for ($i=0; $i <= $num_players_in_game - 1; $i++): ?>
+                                                    <a href="/profile/<?=$players_in_game[$i]->id?>"><?=$players_in_game[$i]->username; ?></a>
+                                                    <br />
+                                            <?php endfor; ?>
+                                        </p>
+                                       <p><?= $num_players_in_game; ?> out of {{ $game->number_players }} players found.</p>
                                         <div class="bottom">
-                                            <a href="#" class="btn btn-secondary">Request to come play!</a>
+                                            
+                                            <a href="/games/<?=$game->id;?>" class="btn btn-secondary request-play">Request to come play!</a>
                                         </div>
                                     </div>
                                 </div>
@@ -101,3 +117,4 @@ use \App\Models\Games;
 </div>
 
 @endsection
+

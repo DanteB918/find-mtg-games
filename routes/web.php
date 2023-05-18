@@ -27,6 +27,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
+
 //User profile page
 Route::get('/profile/{id}', [UserController::class, 'findProfile'])->name('profile')->middleware('auth');
 
@@ -35,12 +37,14 @@ Route::get('/profile/{id}/edit', [UserController::class, 'EditProfileView'])->na
 Route::post('/profile/edit-complete', [UserController::class, 'EditProfile'])->name('editProfilePost')->middleware('auth');
 
 //Create new game
-Route::get('/create-game', [GameController::class, 'createGameForm'])->name('createGameForm')->middleware('auth');;
-Route::post('/create-game', [GameController::class, 'createGame'])->name('createGame')->middleware('auth');;
+Route::get('/create-game', [GameController::class, 'createGameForm'])->name('createGameForm')->middleware('auth');
+Route::post('/create-game', [GameController::class, 'createGame'])->name('createGame')->middleware('auth');
 
+//Request to join game
+Route::get('/games/{id}', [GameController::class, 'requestJoin'])->name('requestJoin')->middleware('auth');
 
 //Show All games
-Route::get('/games', [GameController::class, 'showGames'])->name('games')->middleware('auth');;
+Route::get('/games', [GameController::class, 'showGames'])->name('games')->middleware('auth');
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

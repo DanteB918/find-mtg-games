@@ -14,6 +14,15 @@ class GameController extends Controller
         return view('games', compact('games'));
     }
     /*
+    *   Request to join a game logic
+    *   @param int $game_id = game ID
+    */
+    public function requestJoin(int $game_id)
+    {
+        Games::addPlayerToGame($game_id);
+        return redirect()->back();
+    }
+    /*
     *   Create Game logic
     */
     public function createGameForm(): View

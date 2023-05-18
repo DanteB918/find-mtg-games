@@ -24,11 +24,15 @@
             border: 0 !important;
         }
         &__info{
-    
+            
         }
         &__options{
             display:flex;
-            align-items: flex-end;
+            flex-direction:column;
+            .bottom{
+                display:flex;
+                align-items: flex-end;
+            }
         }
     }
 }

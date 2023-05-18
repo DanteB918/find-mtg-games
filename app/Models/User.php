@@ -66,4 +66,12 @@ class User extends Authenticatable
         $user->refresh();
         return $user;
     }
+    public static function showAllUsersInArray(array $ids){ // Takes array of ID's and returns the users with those ids.
+        $x = [];
+        foreach($ids as $id){
+            $the_user = User::where('id', $id)->first();
+            array_push($x, $the_user);
+        }
+        return $x;
+    }
 }

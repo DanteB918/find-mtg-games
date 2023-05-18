@@ -44,9 +44,7 @@ use \App\Models\Games;
                             <?php if ($game->date >= date("Y-m-d") && count($current_user_ids) < $game->number_players): ?>
                                 <?php 
                                 $players_in_game = User::showAllUsersInArray($current_user_ids); 
-                                $num_players_in_game = count($players_in_game);
-                                
-                                echo $players_in_game[0]->username;
+                                $num_players_in_game = count($players_in_game);                               
                                 ?>
                                 <div class="inner-games row">
                                     <div class="inner-games__info col-md-8">

@@ -17,6 +17,13 @@ class Games extends Model
         'current_players' => 'array',
       ];
 
+    private function checkIfFull() //Set Status from true to false (active to inactive)
+    {
+        if (count($this->current_players) >= $this->number_players){
+            $this->status = false;
+        }
+        $this->update();
+    }
     public static function getActiveGames()
     { //returns all active games
         return Games::orderby('date')
@@ -49,7 +56,7 @@ class Games extends Model
         
         array_push($current_users, Auth::id());
         $game->current_players = $current_users;
-
+        $game->checkIfFull();
         $game->update();
         $game->refresh();
     }

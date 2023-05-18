@@ -30,7 +30,7 @@ Auth::routes();
 
 
 //User profile page
-Route::get('/profile/{id}', [UserController::class, 'findProfile'])->name('profile')->middleware('auth');
+Route::get('/profile/{id}', [UserController::class, 'findProfile'])->name('profile');
 
 //Edit user
 Route::get('/profile/{id}/edit', [UserController::class, 'EditProfileView'])->name('editProfileGet')->middleware('auth');

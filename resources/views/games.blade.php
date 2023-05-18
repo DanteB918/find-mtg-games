@@ -25,26 +25,16 @@ use \App\Models\Games;
                 <div class="card-header">{{ __('Games') }}</div>
 
                 <div class="card-body">
-                   
-                    <?php 
-                    $user = Auth::user();
-            
-                    // Get the currently authenticated user's ID...
-                    $id = Auth::id();
-                    
-                    ?>
-                    <?php //var_dump($user->username); ?>
-                    
                     @if ($games)
                     <div class="outter-games">
                             @foreach($games as $game)
                             <?php 
-                            $current_user_ids = Games::currentPlayers($game->id);
+                                $current_user_ids = Games::currentPlayers($game->id);
                              ?>
                             <?php if ($game->date >= date("Y-m-d") && $game->status === 1): ?>
                                 <?php 
-                                $players_in_game = User::showAllUsersInArray($current_user_ids); 
-                                $num_players_in_game = count($players_in_game);                               
+                                    $players_in_game = User::showAllUsersInArray($current_user_ids); 
+                                    $num_players_in_game = count($players_in_game);                               
                                 ?>
                                 <div class="inner-games row">
                                     <div class="inner-games__info col-md-8">
@@ -65,7 +55,6 @@ use \App\Models\Games;
                                         </p>
                                        <p><?= $num_players_in_game; ?> out of {{ $game->number_players }} players found.</p>
                                         <div class="bottom">
-                                            
                                             <a href="/games/<?=$game->id;?>" class="btn btn-secondary request-play">Request to come play!</a>
                                         </div>
                                     </div>

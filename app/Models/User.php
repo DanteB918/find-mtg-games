@@ -47,7 +47,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    /*
+    *   Edit a User's info.
+    *   @param array $fields = POST fields.
+    */
     public static function editProfile($fields)
     {
         $user = User::where('id', Auth::id())->first();
@@ -60,6 +63,11 @@ class User extends Authenticatable
         $user->update();
         $user->refresh();
     }
+    /*
+    *   Finding User by ID
+    *   @param int $id = User ID.
+    *   @return Object $user
+    */
     public static function findUser(int $id)
     {
         $user = User::where('id', $id)->first();

@@ -39,7 +39,7 @@ use \App\Models\Games;
                                 <div class="inner-games row">
                                     <div class="inner-games__info col-md-8">
                                         {{__('Location:')}} {{ $game->state }}, {{$game->country}} <br />
-                                        When: {{$game->date}} at {{$game->time}} <br />
+                                        When: {{$game->date}} at <?= date("g:i a", strtotime($game->time)); ?><br />
                                         Power Level: {{$game->power_level}}<br />
                                         Number of Players: {{$game->number_players}}<br />
                                         Format: {{$game->format}} <br />

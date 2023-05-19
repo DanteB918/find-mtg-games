@@ -42,6 +42,8 @@ Route::post('/create-game', [GameController::class, 'createGame'])->name('create
 
 //Request to join game
 Route::get('/games/{id}', [GameController::class, 'requestJoin'])->name('requestJoin')->middleware('auth');
+//Leave Game
+Route::get('/games/{id}/leave', [GameController::class, 'leaveGame'])->name('leaveGame')->middleware('auth');
 
 //Show All games
 Route::get('/games', [GameController::class, 'showGames'])->name('games')->middleware('auth');

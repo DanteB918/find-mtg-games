@@ -55,7 +55,11 @@ use \App\Models\Games;
                                         </p>
                                        <p><?= $num_players_in_game; ?> out of {{ $game->number_players }} players found.</p>
                                         <div class="bottom">
-                                            <a href="/games/<?=$game->id;?>" class="btn btn-secondary request-play">Request to come play!</a>
+                                            <?php if(in_array(Auth::id(), $current_user_ids)): ?>
+                                                <a href="/games/<?=$game->id;?>/leave" class="btn btn-secondary">Leave Game</a>
+                                            <?php else: ?>
+                                                <a href="/games/<?=$game->id;?>" class="btn btn-secondary">Join Game</a>
+                                            <?php endif;?>
                                         </div>
                                     </div>
                                 </div>

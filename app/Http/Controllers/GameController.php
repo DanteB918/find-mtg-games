@@ -23,6 +23,15 @@ class GameController extends Controller
         return redirect()->back();
     }
     /*
+    *   Leave Game
+    *   @param int $game_id = game ID
+    */
+    public function leaveGame(int $game_id)
+    {
+        Games::leaveGame($game_id);
+        return redirect()->back();
+    }
+    /*
     *   Create Game logic
     */
     public function createGameForm(): View

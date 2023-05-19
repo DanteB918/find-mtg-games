@@ -24,6 +24,13 @@ class Games extends Model
         }
         $this->update();
     }
+    private function checkIfNotFull() //Set Status from false to true (inactive to active)
+    {
+        if (count($this->current_players) < $this->number_players){
+            $this->status = true;
+        }
+        $this->update();
+    }
     /*
     *   Function for returning all active games, sorted by time and date.
     *   @return array of games that are active.
@@ -73,6 +80,21 @@ class Games extends Model
         array_push($current_users, Auth::id());
         $game->current_players = $current_users;
         $game->checkIfFull();
+        $game->update();
+        $game->refresh();
+    }
+    /*
+    *   Removing player from game once they have pressed the leave game button.
+    *   @param int $game_id = ID of game.  
+    */
+    public static function leaveGame(int $game_id)
+    {
+        $game = Games::where('id', $game_id)->first();
+        if (in_array(Auth::id(), $game->current_players) && Auth::id() != $game->created_by){
+            $game_without_user = array_diff($game->current_players, [Auth::id()]);
+            $game->current_players = $game_without_user;
+        }
+        $game->checkIfNotFull();
         $game->update();
         $game->refresh();
     }

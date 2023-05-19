@@ -16,6 +16,7 @@ use \App\Models\Games;
         <div class="card-header">{{ __('Game Options') }}</div>
             <div class="card-body" >
                 <a href="{{ route('createGameForm') }}" class="btn btn-primary">Create a new Game</a>
+                <a href="#" class="btn btn-primary">My Games</a>
             </div>
         </div>
     </div>
@@ -84,12 +85,7 @@ use \App\Models\Games;
                         if (count($games) < 10){
                             $next = null;
                         }
-
-                        
                     };
-
-
-
                     ?>
                     <?php if ($prev):?>
                         <a href="/games/?page=<?=$prev?>" class="btn">{{ __('Previous') }}</a>

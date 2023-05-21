@@ -51,7 +51,7 @@ use \App\Models\Games;
                                             <?php if(in_array(Auth::id(), $current_user_ids)): ?>
                                                 <a href="/games/<?=$game->id;?>/leave" class="btn btn-secondary">Leave Game</a>
                                             <?php else: ?>
-                                                <a href="/games/<?=$game->id;?>" class="btn btn-secondary">Join Game</a>
+                                                <a href="/games/<?=$game->id;?>/join" class="btn btn-secondary">Join Game</a>
                                             <?php endif;?>
                                         </div>
                                     </div>

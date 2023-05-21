@@ -54,9 +54,18 @@
                                 </li>
                             @endif
                         @else
-                            <a class="nav-link" href="#" role="button">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-regular fa-bell"></i>
                             </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Notification</a></li>
+                                <li><a class="dropdown-item" href="#">Another Notification</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Something else</a></li>
+                            </ul>
+                        </li>
+                           
                             <li class="nav-item dropdown">
                             
 

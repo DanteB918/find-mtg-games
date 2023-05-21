@@ -31,6 +31,14 @@ class Games extends Model
         }
         $this->update();
     }
+    private function currentUserInGame() //Check if current user is a part of game.
+    {
+        foreach ($this->current_players as $player){
+            if ($player === Auth::id()){
+                return true;
+            }
+        }
+    }
     /*
     *   Function for returning all active games, sorted by time and date.
     *   @return array of games that are active.
@@ -41,6 +49,15 @@ class Games extends Model
         ->orderby('time')
         ->paginate(10)
         ->where('status', 1);
+    }
+    /*
+    *   Function for returning all games, sorted by time and date.
+    *   @return array of games
+    */
+    public static function getAllGames()
+    { //returns all active games
+        return Games::orderby('status', 'DESC')
+        ->paginate(10);
     }
     /*
     *   Logic for creating new games.
@@ -98,5 +115,14 @@ class Games extends Model
         $game->update();
         $game->refresh();
     }
-
+    public static function showUsersGames()
+    {
+        $x = [];
+        foreach (Games::getAllGames() as $game){
+            if ($game->currentUserInGame() === true){
+                array_push($x, $game);
+            }
+        }
+        return $x;
+    }
 }

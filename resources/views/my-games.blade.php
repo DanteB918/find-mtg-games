@@ -7,7 +7,8 @@ use \App\Models\Games;
 @extends('layouts.app')
 
 @section('content')
-<p align="center">We sort all games by date, time, and the results that are closest to you.</p>
+<p align="center">Your past and current games.</p>
+
 
 <div class="container">
     <div class="row justify-content-center">
@@ -15,7 +16,7 @@ use \App\Models\Games;
 
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Games') }}</div>
+                <div class="card-header">{{ __('My Games') }}</div>
 
                 <div class="card-body">
                     @if ($games)
@@ -24,7 +25,7 @@ use \App\Models\Games;
                             <?php 
                                 $current_user_ids = Games::currentPlayers($game->id);
                              ?>
-                            <?php if ($game->date >= date("Y-m-d") && $game->status === 1): ?>
+                                
                                 <?php 
                                     $players_in_game = User::showAllUsersInArray($current_user_ids); 
                                     $num_players_in_game = count($players_in_game);                               
@@ -48,15 +49,17 @@ use \App\Models\Games;
                                         </p>
                                        <p><?= $num_players_in_game; ?> out of {{ $game->number_players }} players found.</p>
                                         <div class="bottom">
-                                            <?php if(in_array(Auth::id(), $current_user_ids)): ?>
+                                            <?php if(in_array(Auth::id(), $current_user_ids) && $game->date >= date("Y-m-d")): ?>
                                                 <a href="/games/<?=$game->id;?>/leave" class="btn btn-secondary">Leave Game</a>
+                                        <?php elseif($game->created_by === Auth::id() && $game->status === 1): ?>
+                                            <a href="/games/<?=$game->id;?>/delete" class="btn btn-secondary">Delete Game</a>
+                                                
                                             <?php else: ?>
-                                                <a href="/games/<?=$game->id;?>" class="btn btn-secondary">Join Game</a>
+                                                <span class="green">Completed <i class="fa-solid fa-check"></i></span>
                                             <?php endif;?>
                                         </div>
                                     </div>
                                 </div>
-                            <?php endif; ?>
                             @endforeach
                     </div>
                     <?php

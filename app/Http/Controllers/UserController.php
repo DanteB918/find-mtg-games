@@ -23,9 +23,9 @@ class UserController extends Controller
     /*
     *   Logic for Editting user data
     */
-    public function EditProfileView(string $id): View //GET method
+    public function EditProfileView(int $id): View //GET method
     {
-        if (Auth::id() === intval($id)){ //if current user's id matches url id.
+        if (Auth::id() === $id){ //if current user's id matches url id.
             $user = DB::table('users')->find($id);
             //$user = User::where('id', $id);
 
@@ -36,11 +36,6 @@ class UserController extends Controller
     }
     public function EditProfile(Request $request) //POST Method
     {
-        /*$name = $request->input('name');
-        $email = $request->input('email');
-        $date = $request->input('date');
-        $data=array('time'=>$time,"number_players"=>$number_players,"date"=>$date,"state"=>$state,"country"=>$country,"power_level"=>$power_level, "description"=>$description, "format"=>$format, "status"=>true);
-        DB::table('games')->insert($data);*/
         User::editProfile($request->all());
         return view('game-form-submitted');
     }

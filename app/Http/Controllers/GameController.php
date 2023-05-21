@@ -13,6 +13,11 @@ class GameController extends Controller
         $games = Games::getActiveGames();
         return view('games', compact('games'));
     }
+    public function showMyGames(): View
+    {
+        $games = Games::showUsersGames();
+        return view('my-games', compact('games'));
+    }
     /*
     *   Request to join a game logic
     *   @param int $game_id = game ID

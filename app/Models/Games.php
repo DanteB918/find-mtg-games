@@ -42,18 +42,18 @@ class Games extends Model
     *   @return array of games that are active.
     */
     public static function getActiveGames()
-    { //returns all active games
+    { 
         return Games::orderby('date')
         ->orderby('time')
         ->paginate(10)
         ->where('status', 1);
     }
     /**
-    *   Function for returning all games, sorted by time and date.
+    *   Function for returning all games, sorted by status.
     *   @return array of games
     */
     public static function getAllGames()
-    { //returns all active games
+    { 
         return Games::orderby('status', 'DESC')
         ->paginate(10);
     }

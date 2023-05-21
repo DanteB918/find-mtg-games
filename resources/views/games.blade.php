@@ -37,7 +37,7 @@ use \App\Models\Games;
                                         Number of Players: {{$game->number_players}}<br />
                                         Format: {{$game->format}} <br />
                                         Description: {{$game->description}}<br />
-                                        Created By: <a href="/profile/<?=$game->created_by?>">{{ User::findUser($game->created_by)->username; }}</a>
+                                        Created By: <a href="/profile/<?=$game->created_by?>">{{ User::findUser($game->created_by)->username }}</a>
                                     </div>
                                     <div class="inner-games__options col-md-4">
                                         <p>Players in game: 

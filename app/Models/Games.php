@@ -11,7 +11,19 @@ class Games extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['id', 'time', 'date', 'state', 'country', 'number_players', 'description', 'status', 'power_level', 'format', 'created_by', 'current_players'];
+    protected $fillable = [
+        'id',
+        'time', 
+        'date', 
+        'state', 
+        'country', 
+        'number_players', 
+        'description', 
+        'status', 
+        'power_level', 
+        'format', 
+        'created_by', 
+        'current_players'];
     protected $table = 'games';
     protected $casts = [
         'current_players' => 'array',

@@ -42,6 +42,6 @@ class UserController extends Controller
     public function EditProfile(Request $request) //POST Method
     {
         User::editProfile($request->all());
-        return view('game-form-submitted');
+        return redirect('/profile/' . Auth::id());
     }
 }

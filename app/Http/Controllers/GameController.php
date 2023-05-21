@@ -45,6 +45,16 @@ class GameController extends Controller
     }
     public function createGame(Request $request)
     {
+        $request->validate([
+            'state' => ['required', 'max:20'],
+            'country' => ['required'],
+            'time' => ['required'],
+            'date' => ['required'],
+            'format' => ['required'],
+            'power_level' => ['required'],
+            'number_players' => ['required'],
+            'description' => ['required']
+        ]);
         Games::createGame($request->all());
         return view('game-form-submitted');
     }

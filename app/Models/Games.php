@@ -121,7 +121,7 @@ class Games extends Model
     {
         $userGames = [];
         foreach (Games::getAllGames() as $game){
-            if ($game->currentUserInGame() === true){
+            if ($game->currentUserInGame()){
                 array_push($userGames, $game);
             }
         }

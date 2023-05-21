@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<?php 
-$current_user = Auth::id();
-?>
+
 <div class="container">
     <div class="row">
         <p>{{$user->username}}</p>
@@ -11,11 +9,9 @@ $current_user = Auth::id();
         <p>Member Since: {{ $user->created_at }}</p>
 
         
-        <?php if($current_user === $user->id): //Show only if logged in user is same as current user. ?>
-        <hr>
-
-            <a href="/profile/{{$current_user}}/edit">Edit Profile</a>    
-            
+        <?php if(Auth::id() === $user->id): //Show only if logged in user is same as current user. ?>
+            <hr>
+            <a href="/profile/{{Auth::id()}}/edit">Edit Profile</a>    
         <?php endif; ?>
         <p></p>
     </div>

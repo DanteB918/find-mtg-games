@@ -47,7 +47,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    /*
+    /**
     *   Edit a User's info.
     *   @param array $fields = POST fields.
     */
@@ -63,10 +63,10 @@ class User extends Authenticatable
         $user->update();
         $user->refresh();
     }
-    /*
+    /**
     *   Finding User by ID
     *   @param int $id = User ID.
-    *   @return Object $user
+    *   @return User $user
     */
     public static function findUser(int $id)
     {

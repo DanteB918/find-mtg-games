@@ -31,15 +31,13 @@ class Games extends Model
         }
         $this->update();
     }
-    private function currentUserInGame() //Check if current user is a part of game.
+    public function currentUserInGame() //Check if current user is a part of game.
     {
-        foreach ($this->current_players as $player){
-            if ($player === Auth::id()){
-                return true;
-            }
+        if(in_array(Auth::id(), $this->current_players)){
+            return true;
         }
     }
-    /*
+    /**
     *   Function for returning all active games, sorted by time and date.
     *   @return array of games that are active.
     */
@@ -50,7 +48,7 @@ class Games extends Model
         ->paginate(10)
         ->where('status', 1);
     }
-    /*
+    /**
     *   Function for returning all games, sorted by time and date.
     *   @return array of games
     */
@@ -59,7 +57,7 @@ class Games extends Model
         return Games::orderby('status', 'DESC')
         ->paginate(10);
     }
-    /*
+    /**
     *   Logic for creating new games.
     *   @param array $fields = POST fields for creating new game.
     */
@@ -70,10 +68,10 @@ class Games extends Model
         $newGame = Games::create($all_fields);
         $newGame->refresh();
     }
-    /*
+    /**
     *   Function for returning array of current player's ID's registered to a game.
     *   @param int $game_id = ID of game.  
-    *   @returns array $the_game->current_players = ID's of all players in game.
+    *   @return array $the_game->current_players = ID's of all players in game.
     */
     public static function currentPlayers(int $game_id)
     {
@@ -81,7 +79,7 @@ class Games extends Model
         $the_game->refresh();
         return $the_game->current_players;
     }
-    /*
+    /**
     *   Adding a player to a game once they have pressed the button to join.
     *   @param int $game_id = ID of game.  
     */
@@ -100,7 +98,7 @@ class Games extends Model
         $game->update();
         $game->refresh();
     }
-    /*
+    /**
     *   Removing player from game once they have pressed the leave game button.
     *   @param int $game_id = ID of game.  
     */
@@ -115,14 +113,18 @@ class Games extends Model
         $game->update();
         $game->refresh();
     }
+    /**
+     * Showing All Games for a given user.
+     * @return array $userGames = array of games that the user is part of.
+     */
     public static function showUsersGames()
     {
-        $x = [];
+        $userGames = [];
         foreach (Games::getAllGames() as $game){
             if ($game->currentUserInGame() === true){
-                array_push($x, $game);
+                array_push($userGames, $game);
             }
         }
-        return $x;
+        return $userGames;
     }
 }

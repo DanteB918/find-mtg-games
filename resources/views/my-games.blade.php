@@ -49,7 +49,7 @@ use \App\Models\Games;
                                         </p>
                                        <p><?= $num_players_in_game; ?> out of {{ $game->number_players }} players found.</p>
                                         <div class="bottom">
-                                            <?php if(in_array(Auth::id(), $current_user_ids) && $game->date >= date("Y-m-d")): ?>
+                                            <?php if($game->currentUserInGame() && $game->date >= date("Y-m-d")): ?>
                                                 <a href="/games/<?=$game->id;?>/leave" class="btn btn-secondary">Leave Game</a>
                                         <?php elseif($game->created_by === Auth::id() && $game->status === 1): ?>
                                             <a href="/games/<?=$game->id;?>/delete" class="btn btn-secondary">Delete Game</a>

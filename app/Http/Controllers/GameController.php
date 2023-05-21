@@ -18,7 +18,7 @@ class GameController extends Controller
         $games = Games::showUsersGames();
         return view('my-games', compact('games'));
     }
-    /*
+    /**
     *   Request to join a game logic
     *   @param int $game_id = game ID
     */
@@ -27,7 +27,7 @@ class GameController extends Controller
         Games::addPlayerToGame($game_id);
         return redirect()->back();
     }
-    /*
+    /**
     *   Leave Game
     *   @param int $game_id = game ID
     */
@@ -36,7 +36,7 @@ class GameController extends Controller
         Games::leaveGame($game_id);
         return redirect()->back();
     }
-    /*
+    /**
     *   Create Game logic
     */
     public function createGameForm(): View

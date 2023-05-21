@@ -10,7 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function findProfile(String $id) // find profile by ID and display on front-end
+    /**
+     * find profile by ID and display on front-end
+     * @param int $id = id of user
+     */
+    public function findProfile(int $id) 
     {
         $user = DB::table('users')->find($id);
         if( $user ){
@@ -20,8 +24,9 @@ class UserController extends Controller
         }
     }
 
-    /*
+    /**
     *   Logic for Editting user data
+    *   @param int $id = id of given user in URL.
     */
     public function EditProfileView(int $id): View //GET method
     {

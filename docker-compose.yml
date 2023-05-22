@@ -11,7 +11,7 @@ services:
        volumes:
          - .:/var/www/html
        ports:
-         - 5000:80
+         - 8000:80
        environment:
          - DB_HOST=mysql
          - DB_PORT=5505
@@ -20,11 +20,12 @@ services:
          - DB_PASSWORD=password
 
     mysql:
-       image: "mysql:5.7"
-       ports:
-         - "5505:3306"
-       environment:
-         MYSQL_DATABASE: laravel
-         MYSQL_ROOT_PASSWORD: "password"
-       volumes:
-         - ./mysql:/var/lib/mysql
+     image: mysql:8.0
+     restart: unless-stopped
+     environment:
+       - MYSQL_DATABASE=laravel
+       - MYSQL_ROOT_PASSWORD=root
+       - MYSQL_USER=root
+       - MYSQL_PASSWORD=password
+     volumes:
+       - ./mysql:/var/lib/mysql

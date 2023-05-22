@@ -18,14 +18,11 @@ services:
          - DB_DATABASE=laravel
          - DB_USERNAME=root
          - DB_PASSWORD=password
-
     mysql:
      image: mysql:8.0
      restart: unless-stopped
      environment:
-       - MYSQL_DATABASE=laravel
-       - MYSQL_ROOT_PASSWORD=root
-       - MYSQL_USER=root
-       - MYSQL_PASSWORD=password
+         MYSQL_DATABASE: laravel
+         MYSQL_ROOT_PASSWORD: "password"
      volumes:
        - ./mysql:/var/lib/mysql

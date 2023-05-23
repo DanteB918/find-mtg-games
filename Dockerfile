@@ -1,4 +1,4 @@
-FROM php:8.2.6-fpm
+FROM php:8.2.6-apache
 
 # Install required system packages
 RUN apt-get update && apt-get install -y \
@@ -15,9 +15,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy your Laravel project files
 COPY . /var/www/html
 
-# Set working directory
-WORKDIR /var/www/html
-
 
 RUN composer require laravel/ui
 # Install project dependencies
@@ -26,12 +23,8 @@ RUN composer install --optimize-autoloader --no-dev
 # Generate application key
 RUN php artisan key:generate
 
+# Set working directory
+WORKDIR /var/www/html/public
+
 # Set folder permissions if necessary
-# Example: RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Expose port if necessary
-# Example: EXPOSE 8000
-
-# Start PHP-FPM
-
-CMD ["php-fpm"]
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/mysql

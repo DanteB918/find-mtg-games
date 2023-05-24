@@ -15,6 +15,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Copy your Laravel project files
 COPY . /var/www/html
 
+# 2. Apache configs + document root.
+RUN echo "ServerName laravel-app.local" >> /etc/apache2/apache2.conf
+
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 RUN composer require laravel/ui
 # Install project dependencies
@@ -23,8 +29,9 @@ RUN composer install --optimize-autoloader --no-dev
 # Generate application key
 RUN php artisan key:generate
 
+
 # Set working directory
 WORKDIR /var/www/html/public
 
-# Set folder permissions if necessary
+# Set folder permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/mysql

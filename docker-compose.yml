@@ -21,6 +21,8 @@ services:
     mysql:
      image: mysql:8.0
      restart: unless-stopped
+     ports:
+       - 5505:3306
      environment:
          MYSQL_DATABASE: laravel
          MYSQL_ROOT_PASSWORD: "password"

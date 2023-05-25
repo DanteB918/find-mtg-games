@@ -24,6 +24,12 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
 RUN a2enmod rewrite headers
 
+# 4. Start with base PHP config, then add extensions.
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+
+RUN docker-php-ext-install \
+    pdo_mysql
+
 RUN composer require laravel/ui
 # Install project dependencies
 RUN composer install --optimize-autoloader --no-dev

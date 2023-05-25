@@ -20,6 +20,7 @@ services:
          - DB_PASSWORD=password
     mysql:
      image: mysql:8.0
+     container_name: laravel-app-mysql
      restart: unless-stopped
      ports:
        - 5505:3306

@@ -58,6 +58,7 @@ class Games extends Model
         return Games::orderby('date')
         ->orderby('time')
         ->paginate(10)
+        ->where('date', '>=', date("Y-m-d"))
         ->where('status', 1);
     }
     /**
@@ -124,6 +125,19 @@ class Games extends Model
         $game->checkIfNotFull();
         $game->update();
         $game->refresh();
+    }
+    /**
+     *   Handle deleting games, only by 
+     *   @param int $game_id = ID of game.  
+     */
+    public static function deleteGame(int $game_id)
+    {
+        $game = Games::where('id', $game_id)->first();
+        if ($game->created_by === Auth::id()){
+            $game->delete();
+        }else{
+            echo 'invalid user';
+        }
     }
     /**
      * Showing All Games for a given user.

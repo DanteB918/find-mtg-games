@@ -21,10 +21,10 @@ use \App\Models\Games;
                     @if ($games)
                     <div class="outter-games">
                             @foreach($games as $game)
+
                             <?php 
                                 $current_user_ids = Games::currentPlayers($game->id);
                              ?>
-                            <?php if ($game->date >= date("Y-m-d") && $game->status === 1): ?>
                                 <?php 
                                     $players_in_game = User::showAllUsersInArray($current_user_ids); 
                                     $num_players_in_game = count($players_in_game);                               
@@ -58,7 +58,6 @@ use \App\Models\Games;
                                         </div>
                                     </div>
                                 </div>
-                            <?php endif; ?>
                             @endforeach
                     </div>
                     <?php

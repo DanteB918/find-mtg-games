@@ -18,6 +18,11 @@ class GameController extends Controller
         $games = Games::showUsersGames();
         return view('my-games', compact('games'));
     }
+    public function deleteGame(int $game_id)
+    {
+        Games::deleteGame($game_id);
+        return redirect()->back();
+    }
     /**
     *   Request to join a game logic
     *   @param int $game_id = game ID

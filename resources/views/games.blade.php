@@ -60,32 +60,7 @@ use \App\Models\Games;
                                 </div>
                             @endforeach
                     </div>
-                    <?php
-                    // Pagination logic
-                    if(empty($_GET['page'])){
-                        $next = 2;
-                        $prev = null;
-                        //if less than 10 results on page, only going back is an option
-                        if (count($games) < 10){
-                            $next = null;
-                        }
-                    }else{
-                        $current_page = $_GET['page'];
-                        $next = $current_page +=1;
-                        $prev = $current_page -= 2;
-                        
-                        //if less than 10 results on page, only going back is an option
-                        if (count($games) < 10){
-                            $next = null;
-                        }
-                    };
-                    ?>
-                    <?php if ($prev):?>
-                        <a href="/games/?page=<?=$prev?>" class="btn">{{ __('Previous') }}</a>
-                    <?php endif; ?>
-                    <?php if ($next):?>
-                        <a href="/games/?page=<?=$next?>" class="btn">{{ __('Next') }}</a>
-                    <?php endif; ?>
+                    {{$games->links()}}
                     @else
                     <p>No Games Found</p>
                     @endif

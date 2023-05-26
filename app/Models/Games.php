@@ -55,11 +55,11 @@ class Games extends Model
     */
     public static function getActiveGames()
     { 
-        return Games::orderby('date')
-        ->orderby('time')
-        ->paginate(10)
-        ->where('date', '>=', date("Y-m-d"))
-        ->where('status', 1);
+        return Games::where('date', '>=', date("Y-m-d"))
+        ->where('status', 1)
+        ->orderby('date', 'ASC')
+        ->orderby('time', 'ASC')
+        ->paginate(10);
     }
     /**
     *   Function for returning all games, sorted by status.

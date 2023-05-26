@@ -55,10 +55,10 @@ class GameController extends Controller
             'country' => ['required'],
             'time' => ['required'],
             'date' => ['required'],
-            'format' => ['required'],
-            'power_level' => ['required'],
+            'format' => ['required', 'max:20'],
+            'power_level' => ['required', 'int', 'max:10'],
             'number_players' => ['required'],
-            'description' => ['required']
+            'description' => ['required', 'max: 200']
         ]);
         Games::createGame($request->all());
         return view('game-form-submitted');

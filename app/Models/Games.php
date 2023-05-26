@@ -59,7 +59,7 @@ class Games extends Model
         ->where('status', 1)
         ->orderby('date', 'ASC')
         ->orderby('time', 'ASC')
-        ->paginate(10);
+        ->paginate(5);
     }
     /**
     *   Function for returning all games, sorted by status.

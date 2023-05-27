@@ -24,11 +24,9 @@ use \App\Models\Games;
 
                             <?php 
                                 $current_user_ids = Games::currentPlayers($game->id);
+                                $players_in_game = User::showAllUsersInArray($current_user_ids); 
+                                $num_players_in_game = count($players_in_game);      
                              ?>
-                                <?php 
-                                    $players_in_game = User::showAllUsersInArray($current_user_ids); 
-                                    $num_players_in_game = count($players_in_game);                               
-                                ?>
                                 <div class="inner-games row">
                                     <div class="inner-games__info col-md-8">
                                         {{__('Location:')}} {{ $game->state }}, {{$game->country}} <br />

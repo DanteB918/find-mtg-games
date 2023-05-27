@@ -1,4 +1,5 @@
 <!doctype html>
+<?php use App\Models\Notifications; ?>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -59,10 +60,7 @@
                                 <i class="fa-regular fa-bell"></i>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Notification</a></li>
-                                <li><a class="dropdown-item" href="#">Another Notification</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Something else</a></li>
+                                <?=Notifications::showUserNotifications(); ?>
                             </ul>
                         </li>
                            

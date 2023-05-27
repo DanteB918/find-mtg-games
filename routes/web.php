@@ -11,8 +11,9 @@ Route::get('/', function () {
     }else{
         return view('front-page');
     }
-})->name('home');
+});
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 /**
  * Begin User Routes

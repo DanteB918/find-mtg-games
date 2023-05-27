@@ -68,7 +68,7 @@ class Games extends Model
     public static function getAllGames()
     { 
         return Games::orderby('status', 'DESC')
-        ->paginate(10);
+        ->paginate(5);
     }
     /**
     *   Logic for creating new games.

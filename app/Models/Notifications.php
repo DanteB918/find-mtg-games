@@ -27,11 +27,15 @@ class Notifications extends Model
         ->where('status', 1)
         ->orderby('created_at', 'DESC')
         ->get();
-        foreach($notifications as $notification)
-        {
-            $notification->refresh();
-            echo '<li><a class="dropdown-item" href="#">'. $notification->content . '</a></li>'
-            . ' <li><hr class="dropdown-divider"></li>';
+        if ($notifications){
+            foreach($notifications as $notification)
+            {
+                $notification->refresh();
+                echo '<li><a class="dropdown-item" href="#">'. $notification->content . '</a></li>'
+                . ' <li><hr class="dropdown-divider"></li>';
+            }
+        }else{
+            echo 'No Notifications at this time.';
         }
     
     }

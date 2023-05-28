@@ -2,6 +2,7 @@
 
 namespace App\Models;
 use App\Models\User;
+use App\Models\Notifications;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -110,6 +111,8 @@ class Games extends Model
         $game->checkIfFull();
         $game->update();
         $game->refresh();
+        $username = User::returnUsername(Auth::id());
+        Notifications::newNotification($username . ' has joined the game.', Auth::id(), $game->created_by);
     }
     /**
     *   Removing player from game once they have pressed the leave game button.

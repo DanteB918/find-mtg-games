@@ -15,34 +15,26 @@ class Notifications extends Model
 
     protected $fillable = [
         'id',
-        'time', 
-        'date', 
         'status', 
         'link',
         'content',
         'from',
         'to' ];
     protected $table = 'notifications';
-    protected $casts = [
-        'current_players' => 'array',
-      ];
-    
-    public function getUsernames($user_id)
-    {
-        $user = User::where('id', $user_id)->first();
-        return $user->username;
-    }
     public static function showUserNotifications()
     {
-        var_dump(Auth::id());
         $notifications = Notifications::all();
-
         foreach($notifications as $notification)
         {
             $notification->refresh();
-            return '<li><a class="dropdown-item" href="#">'. $notification->content . ' from: ' . $notification->getUsernames($notification->from) . '</a></li>'
+            echo '<li><a class="dropdown-item" href="#">'. $notification->content . '</a></li>'
             . ' <li><hr class="dropdown-divider"></li>';
         }
     
+    }
+    public static function newNotification($message, $from, $to)
+    {
+        $the_notification = array('status' => 1, 'content' => $message, 'from' => $from, 'to' => $to ); //Appending required data.
+        Notifications::create($the_notification);
     }
 }

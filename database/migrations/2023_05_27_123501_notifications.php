@@ -16,8 +16,6 @@ return new class extends Migration
             Schema::create('notifications', function (Blueprint $table) {
                 $table->increments('id')->unique();
                 $table->string('content');
-                $table->time('time');
-                $table->date('date');
                 $table->boolean('status');
                 $table->string('link');
                 $table->integer('from'); //User ID

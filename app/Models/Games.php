@@ -112,7 +112,15 @@ class Games extends Model
         $game->update();
         $game->refresh();
         $username = User::returnUsername(Auth::id());
-        Notifications::newNotification($username . ' has joined the game.', Auth::id(), $game->created_by);
+        //Notify all players in the game
+        foreach ($game->current_players as $player)
+        {
+            if($player === Auth::id()){ 
+                Notifications::newNotification('You have successfully joined the game.', Auth::id(), $player);
+            }else{
+                Notifications::newNotification($username . ' has joined the game.', Auth::id(), $player);
+            }
+        }
     }
     /**
     *   Removing player from game once they have pressed the leave game button.
@@ -128,6 +136,16 @@ class Games extends Model
         $game->checkIfNotFull();
         $game->update();
         $game->refresh();
+        $username = User::returnUsername(Auth::id());
+        //Notify all players in the game
+        foreach ($game->current_players as $player)
+        {
+            if($player === Auth::id()){ 
+                Notifications::newNotification('You have left the game.', Auth::id(), $player);
+            }else{
+                Notifications::newNotification($username . ' has left the game.', Auth::id(), $player);
+            }
+        }
     }
     /**
      *   Handle deleting games, only by 
@@ -137,6 +155,16 @@ class Games extends Model
     {
         $game = Games::where('id', $game_id)->first();
         if ($game->created_by === Auth::id()){
+            $username = User::returnUsername(Auth::id());
+            //Notify all players in the game
+            foreach ($game->current_players as $player)
+            {
+                if($player === Auth::id()){ 
+                    continue;
+                }else{
+                    Notifications::newNotification($username . ' has deleted the game.', Auth::id(), $player);
+                }
+            }
             $game->delete();
         }else{
             echo 'invalid user';

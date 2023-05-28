@@ -23,7 +23,10 @@ class Notifications extends Model
     protected $table = 'notifications';
     public static function showUserNotifications()
     {
-        $notifications = Notifications::all();
+        $notifications = Notifications::where('to', Auth::id())
+        ->where('status', 1)
+        ->orderby('created_at', 'DESC')
+        ->get();
         foreach($notifications as $notification)
         {
             $notification->refresh();

@@ -24,12 +24,9 @@ use \App\Models\Games;
                             @foreach($games as $game)
                             <?php 
                                 $current_user_ids = Games::currentPlayers($game->id);
+                                $players_in_game = User::showAllUsersInArray($current_user_ids); 
+                                $num_players_in_game = count($players_in_game);       
                              ?>
-                                
-                                <?php 
-                                    $players_in_game = User::showAllUsersInArray($current_user_ids); 
-                                    $num_players_in_game = count($players_in_game);                               
-                                ?>
                                 <div class="inner-games row">
                                     <div class="inner-games__info col-md-8">
                                         {{__('Location:')}} {{ $game->state }}, {{$game->country}} <br />
@@ -64,30 +61,31 @@ use \App\Models\Games;
                             @endforeach
                     </div>
                     <?php
-                    // Pagination logic
-                    if(empty($_GET['page'])){
-                        $next = 2;
-                        $prev = null;
-                        //if less than 10 results on page, only going back is an option
-                        if (count($games) < 10){
+
+                     // Pagination logic
+                     if(!empty($_GET['page'])){
+                        $current_page = $_GET['page'];
+                        $next = $current_page += 1;
+                        $prev = $current_page -= 2;
+                        
+                        //if less than 5 results on page, only going back is an option
+                        if (count($games) < 4){
                             $next = null;
                         }
                     }else{
-                        $current_page = $_GET['page'];
-                        $next = $current_page +=1;
-                        $prev = $current_page -= 2;
-                        
-                        //if less than 10 results on page, only going back is an option
-                        if (count($games) < 10){
+                        $next = 2;
+                        $prev = null;
+                        //if less than 5 results on page, only going back is an option
+                        if (count($games) < 4){
                             $next = null;
                         }
                     };
                     ?>
                     <?php if ($prev):?>
-                        <a href="/games/?page=<?=$prev?>" class="btn">{{ __('Previous') }}</a>
+                        <a href="/my-games/?page=<?=$prev?>" class="btn">{{ __('Previous') }}</a>
                     <?php endif; ?>
                     <?php if ($next):?>
-                        <a href="/games/?page=<?=$next?>" class="btn">{{ __('Next') }}</a>
+                        <a href="/my-games/?page=<?=$next?>" class="btn">{{ __('Next') }}</a>
                     <?php endif; ?>
                     @else
                     <p>No Games Found</p>

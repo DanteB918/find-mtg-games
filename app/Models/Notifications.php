@@ -31,7 +31,7 @@ class Notifications extends Model
             foreach($notifications as $notification)
             {
                 $notification->refresh();
-                echo '<li><a class="dropdown-item" href="#">'. $notification->content . '</a></li>'
+                echo '<li><a class="dropdown-item" href="' . $notification->link . '">'. $notification->content . '</a></li>'
                 . ' <li><hr class="dropdown-divider"></li>';
             }
         }else{
@@ -39,9 +39,9 @@ class Notifications extends Model
         }
     
     }
-    public static function newNotification($message, $from, $to)
+    public static function newNotification($message, $from, $to, $link)
     {
-        $the_notification = array('status' => 1, 'content' => $message, 'from' => $from, 'to' => $to ); //Appending required data.
+        $the_notification = array('status' => 1, 'content' => $message, 'from' => $from, 'to' => $to, 'link' => $link ); //Appending required data.
         Notifications::create($the_notification);
     }
 }

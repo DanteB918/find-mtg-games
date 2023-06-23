@@ -42,6 +42,14 @@ class GameController extends Controller
         return redirect()->back();
     }
     /**
+     *  Single Game Page
+     */
+    public function singleGame(int $game_id)
+    {
+        $game = Games::findGame($game_id);
+        return view('single-game', compact('game'));
+    }
+    /**
     *   Create Game logic
     */
     public function createGameForm(): View

@@ -63,6 +63,15 @@ class Games extends Model
         ->paginate(5);
     }
     /**
+     *  Function for finding a game and returning it given the game ID
+     *  @param int $game_id
+     *  @return object of Game
+     */
+    public static function findGame(int $game_id)
+    {
+        return Games::where('id', $game_id)->first();
+    }
+    /**
     *   Function for returning all games, sorted by status.
     *   @return array of games
     */
@@ -104,7 +113,7 @@ class Games extends Model
             if($player === Auth::id()){
                 return false;
             }
-        }        
+        }
         $current_users = $game->current_players;
         array_push($current_users, Auth::id());
         $game->current_players = $current_users;
@@ -116,9 +125,9 @@ class Games extends Model
         foreach ($game->current_players as $player)
         {
             if($player === Auth::id()){ 
-                Notifications::newNotification('You have successfully joined the game.', Auth::id(), $player);
+                Notifications::newNotification('You have successfully joined the game.', Auth::id(), $player, '/game/' . $game->id);
             }else{
-                Notifications::newNotification($username . ' has joined the game.', Auth::id(), $player);
+                Notifications::newNotification($username . ' has joined the game.', Auth::id(), $player, '/game/' . $game->id);
             }
         }
     }
@@ -141,9 +150,9 @@ class Games extends Model
         foreach ($game->current_players as $player)
         {
             if($player === Auth::id()){ 
-                Notifications::newNotification('You have left the game.', Auth::id(), $player);
+                Notifications::newNotification('You have left the game.', Auth::id(), $player, '/game/' . $game->id);
             }else{
-                Notifications::newNotification($username . ' has left the game.', Auth::id(), $player);
+                Notifications::newNotification($username . ' has left the game.', Auth::id(), $player, '/game/' . $game->id);
             }
         }
     }
@@ -162,7 +171,7 @@ class Games extends Model
                 if($player === Auth::id()){ 
                     continue;
                 }else{
-                    Notifications::newNotification($username . ' has deleted the game.', Auth::id(), $player);
+                    Notifications::newNotification($username . ' has deleted the game.', Auth::id(), $player, '#');
                 }
             }
             $game->delete();

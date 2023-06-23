@@ -38,6 +38,9 @@ Route::post('/profile/edit-complete', [UserController::class, 'EditProfile'])->n
  //Create new game
 Route::get('/create-game', [GameController::class, 'createGameForm'])->name('createGameForm')->middleware('auth');
 Route::post('/create-game', [GameController::class, 'createGame'])->name('createGame')->middleware('auth');
+//Single Game
+Route::get('/game/{id}', [GameController::class, 'singleGame'])->name('singleGame')->middleware('auth');
+
 
 //Request to join game
 Route::get('/games/{id}/join', [GameController::class, 'requestJoin'])->name('requestJoin')->middleware('auth');

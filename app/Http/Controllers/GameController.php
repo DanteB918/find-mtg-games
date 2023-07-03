@@ -11,12 +11,12 @@ class GameController extends Controller
     public function showGames(): View
     {
         $games = Games::getActiveGames();
-        return view('games', compact('games'));
+        return view('game.games', compact('games'));
     }
     public function showMyGames(): View
     {
         $games = Games::showUsersGames();
-        return view('my-games', compact('games'));
+        return view('game.my-games', compact('games'));
     }
     public function deleteGame(int $game_id)
     {
@@ -47,14 +47,14 @@ class GameController extends Controller
     public function singleGame(int $game_id)
     {
         $game = Games::findGame($game_id);
-        return view('single-game', compact('game'));
+        return view('game.single-game', compact('game'));
     }
     /**
     *   Create Game logic
     */
     public function createGameForm(): View
     {
-        return view('game-form');
+        return view('game.game-form');
     }
     public function createGame(Request $request)
     {
@@ -69,7 +69,7 @@ class GameController extends Controller
             'description' => ['required', 'max: 200']
         ]);
         Games::createGame($request->all());
-        return view('game-form-submitted');
+        return view('game.game-form-submitted');
     }
 
 }

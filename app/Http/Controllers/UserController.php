@@ -18,7 +18,7 @@ class UserController extends Controller
     {
         $user = DB::table('users')->find($id);
         if( $user ){
-            return view('profile', compact('user'));
+            return view('users.profile', compact('user'));
         }else{
             echo 'user not found';
         }
@@ -34,7 +34,7 @@ class UserController extends Controller
             $user = DB::table('users')->find($id);
             //$user = User::where('id', $id);
 
-            return view('edit-profile', compact('user'));
+            return view('users.edit-profile', compact('user'));
         }else{
             return view('home');
         }

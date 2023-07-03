@@ -46,7 +46,7 @@ use \App\Models\Games;
                     </div>
                   
                     @else
-                    <p>No Games Found</p>
+                    <p>Game not found.</p>
                     @endif
                     
                 </div>

@@ -46,12 +46,14 @@ use \App\Models\Games;
                                         </p>
                                        <p><?= $num_players_in_game; ?> out of {{ $game->number_players }} players found.</p>
                                         <div class="bottom">
+                                            <a href="/game/<?=$game->id;?>" class="btn btn-secondary see-game">See Game</a>
+
                                             <?php if(in_array(Auth::id(), $current_user_ids) && $game->created_by != Auth::id()): ?>
-                                                <a href="/games/<?=$game->id;?>/leave" class="btn btn-secondary">Leave Game</a>
+                                                <a href="/games/<?=$game->id;?>/leave" class="btn btn-secondary leave-join-game">Leave Game</a>
                                             <?php elseif($game->created_by === Auth::id() && $game->status === 1): ?>
-                                                <a onClick="deleteGame(<?=$game->id;?>)" class="btn btn-secondary">Delete Game</a>
+                                                <a onClick="deleteGame(<?=$game->id;?>)" class="btn btn-secondary delete-btn">Delete Game</a>
                                             <?php else: ?>
-                                                <a href="/games/<?=$game->id;?>/join" class="btn btn-secondary">Join Game</a>
+                                                <a href="/games/<?=$game->id;?>/join" class="btn btn-secondary leave-join-game">Join Game</a>
                                             <?php endif;?>
                                         </div>
                                     </div>

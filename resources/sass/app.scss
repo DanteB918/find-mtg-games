@@ -32,6 +32,15 @@
             .bottom{
                 display:flex;
                 align-items: flex-end;
+                .delete-btn{
+                    background-color: #e65054;
+                }
+                .see-game{
+                    background-color: #787c82;
+                }
+                .leave-join-game{
+                    background-color: #3582c4;
+                }
             }
         }
     }

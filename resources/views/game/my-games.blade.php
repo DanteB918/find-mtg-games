@@ -46,14 +46,16 @@ use \App\Models\Games;
                                         </p>
                                        <p><?= $num_players_in_game; ?> out of {{ $game->number_players }} players found.</p>
                                         <div class="bottom">
-                                            <?php if($game->currentUserInGame() && $game->date >= date("Y-m-d") && $game->created_by != Auth::id() && $game->status === 1): ?>
-                                                <a href="/games/<?=$game->id;?>/leave" class="btn btn-secondary">Leave Game</a>
-                                            <?php elseif($game->created_by === Auth::id() && $game->status === 1): ?>
-                                                <a onClick="deleteGame(<?=$game->id;?>)" class="btn btn-secondary">Delete Game</a>
-                                                
-                                            <?php endif;?>
-                                            <?php if($game->date >= date("Y-m-d") && $num_players_in_game === $game->number_players): ?>
+                                        <a href="/game/<?=$game->id;?>" class="btn btn-secondary see-game">See Game</a>
+
+                                            <?php if($game->date >= date("Y-m-d") || $num_players_in_game === $game->number_players): ?>
                                                 <br /><span class="green">Completed <i class="fa-solid fa-check"></i></span>
+                                            <?php else: ?>
+                                                <?php if($game->currentUserInGame() && $game->date >= date("Y-m-d") && $game->created_by != Auth::id() && $game->status === 1): ?>
+                                                    <a href="/games/<?=$game->id;?>/leave" class="btn btn-secondary leave-join-game">Leave Game</a>
+                                                <?php elseif($game->created_by === Auth::id() && $game->status === 1): ?>
+                                                    <a onClick="deleteGame(<?=$game->id;?>)" class="btn btn-secondary delete-btn">Delete Game</a>
+                                                <?php endif;?>
                                             <?php endif; ?>
                                         </div>
                                     </div>

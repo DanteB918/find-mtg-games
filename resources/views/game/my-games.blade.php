@@ -27,7 +27,7 @@ use \App\Models\Games;
                                 $players_in_game = User::showAllUsersInArray($current_user_ids); 
                                 $num_players_in_game = count($players_in_game);       
                              ?>
-                                <div class="inner-games row">
+                                <div class="inner-games row game-<?=$game->id?>">
                                     <div class="inner-games__info col-md-8">
                                         {{__('Location:')}} {{ $game->state }}, {{$game->country}} <br />
                                         When: {{$game->date}} at <?= date("g:i a", strtotime($game->time)); ?><br />
@@ -49,7 +49,7 @@ use \App\Models\Games;
                                             <?php if($game->currentUserInGame() && $game->date >= date("Y-m-d") && $game->created_by != Auth::id() && $game->status === 1): ?>
                                                 <a href="/games/<?=$game->id;?>/leave" class="btn btn-secondary">Leave Game</a>
                                             <?php elseif($game->created_by === Auth::id() && $game->status === 1): ?>
-                                                <a href="/games/<?=$game->id;?>/delete" class="btn btn-secondary">Delete Game</a>
+                                                <a onClick="deleteGame(<?=$game->id;?>)" class="btn btn-secondary">Delete Game</a>
                                                 
                                             <?php endif;?>
                                             <?php if($game->date >= date("Y-m-d") && $num_players_in_game === $game->number_players): ?>
@@ -98,4 +98,4 @@ use \App\Models\Games;
 </div>
 
 @endsection
-
+@include('game.game-ajax')

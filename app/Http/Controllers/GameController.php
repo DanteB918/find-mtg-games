@@ -21,7 +21,6 @@ class GameController extends Controller
     public function deleteGame(int $game_id)
     {
         Games::deleteGame($game_id);
-        return redirect()->back();
     }
     /**
     *   Request to join a game logic

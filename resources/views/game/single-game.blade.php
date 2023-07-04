@@ -56,3 +56,4 @@ use \App\Models\Games;
 </div>
 
 @endsection
+@include('game.game-ajax')

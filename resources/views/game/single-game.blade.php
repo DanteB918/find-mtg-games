@@ -40,6 +40,15 @@ use \App\Models\Games;
                                                     <br />
                                             <?php endfor; ?>
                                         </p>
+                                        <div class="bottom">
+                                            <?php if(in_array(Auth::id(), $current_user_ids) && $game->created_by != Auth::id()): ?>
+                                                <a href="/games/<?=$game->id;?>/leave" class="btn btn-secondary leave-join-game">Leave Game</a>
+                                            <?php elseif($game->created_by === Auth::id() && $game->status === 1): ?>
+                                                <a onClick="deleteGame(<?=$game->id;?>)" class="btn btn-secondary delete-btn">Delete Game</a>
+                                            <?php else: ?>
+                                                <a href="/games/<?=$game->id;?>/join" class="btn btn-secondary leave-join-game">Join Game</a>
+                                            <?php endif;?>
+                                        </div>
 
                                     </div>
                                 </div>

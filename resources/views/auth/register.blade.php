@@ -54,8 +54,9 @@
                             <label for="country" class="col-md-4 col-form-label text-md-end">{{ __('Country') }}</label>
 
                             <div class="col-md-6">
-                                <input id="country" type="text" class="form-control @error('name') is-invalid @enderror" name="country" value="{{ old('country') }}" required autocomplete="country" autofocus>
-
+                                <select id="country" class="form-control @error('country') is-invalid @enderror" name="country"  required>
+                                    @include('reusable-options.countries')
+                                </select>
                                 @error('country')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -67,8 +68,9 @@
                             <label for="state" class="col-md-4 col-form-label text-md-end">{{ __('State') }}</label>
 
                             <div class="col-md-6">
-                                <input id="state" type="text" class="form-control @error('name') is-invalid @enderror" name="state" value="{{ old('state') }}" required autocomplete="state" autofocus>
-
+                                <select id="state" class="form-control @error('state') is-invalid @enderror" name="state" required value="{{$user->state}}">
+                                    @include('reusable-options.states')
+                                </select>
                                 @error('state')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

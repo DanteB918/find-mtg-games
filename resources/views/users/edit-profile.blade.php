@@ -59,8 +59,9 @@ use \App\Models\User;
                             <label for="country" class="col-md-4 col-form-label text-md-end">{{ __('Country') }}</label>
 
                             <div class="col-md-6">
-                                <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{$user->country}}" required autocomplete="country" autofocus>
-
+                                <select id="country" class="form-control @error('country') is-invalid @enderror" name="country"  required>
+                                    @include('reusable-options.countries')
+                                </select>
                                 @error('country')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -72,8 +73,9 @@ use \App\Models\User;
                             <label for="state" class="col-md-4 col-form-label text-md-end">{{ __('State') }}</label>
 
                             <div class="col-md-6">
-                                <input id="state" type="text" class="form-control @error('state') is-invalid @enderror" name="state" value="{{$user->state}}" required autocomplete="state" autofocus>
-
+                                <select id="state" class="form-control @error('state') is-invalid @enderror" name="state" required value="{{$user->state}}">
+                                    @include('reusable-options.states')
+                                </select>
                                 @error('state')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -110,4 +112,10 @@ use \App\Models\User;
         </div>
     </div>
 </div>
+<script>
+    //Set the state and country to the DB value.
+    $('#state option[value="<?=$user->state;?>"]').attr('selected', 'selected');
+    $('#country option[value="<?=$user->country;?>"]').attr('selected', 'selected');
+
+</script>
 @endsection

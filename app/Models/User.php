@@ -53,15 +53,22 @@ class User extends Authenticatable
     */
     public static function editProfile($fields)
     {
-        $user = User::where('id', Auth::id())->first();
-        $user->username = $fields['username'];
-        $user->first_name = $fields['first_name'];
-        $user->last_name = $fields['last_name'];
-        $user->email = $fields['email'];
-        $user->state = $fields['state'];
-        $user->country = $fields['country'];
-        $user->update();
-        $user->refresh();
+        try{
+            $user = User::where('id', Auth::id())->first();
+            $user->username = $fields['username'];
+            $user->first_name = $fields['first_name'];
+            $user->last_name = $fields['last_name'];
+            $user->email = $fields['email'];
+            $user->state = $fields['state'];
+            $user->country = $fields['country'];
+            $user->update();
+            $user->refresh();
+
+        } catch (\Exception $e){
+            //$e->getMessage()
+            abort(403, 'Unauthorized Action');
+            return false;
+        }
     }
     /**
     *   Finding User by ID

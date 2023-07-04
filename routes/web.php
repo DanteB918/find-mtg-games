@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\NotificationController;
 
 //Home Page
 Route::get('/', function () {
@@ -53,7 +54,16 @@ Route::get('/my-games', [GameController::class, 'showMyGames'])->name('myGames')
 //Show All games
 Route::get('/games', [GameController::class, 'showGames'])->name('games')->middleware('auth');
 
+/**
+ * End Game Routes
+ *-----------------------------------------
+ * Begin Notification Routes
+ */
 
+ Route::delete('/notification/{id}/delete', [NotificationController::class, 'deleteNotification'])->name('deleteNotify');
+
+
+ 
 /**
  * End Game Routes
  */

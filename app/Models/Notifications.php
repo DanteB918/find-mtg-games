@@ -27,15 +27,15 @@ class Notifications extends Model
         ->where('status', 1)
         ->orderby('created_at', 'DESC')
         ->get();
-        if ($notifications){
+        if (!$notifications->isEmpty()){
             foreach($notifications as $notification)
             {
                 $notification->refresh();
-                echo '<li><a class="dropdown-item" href="' . $notification->link . '">'. $notification->content . '</a></li>'
+                echo '<li class="notify-' . $notification->id . '" onClick="deleteNotify(' . $notification->id . ')"><a class="dropdown-item" href="' . $notification->link . '">'. $notification->content . '</a></li>'
                 . ' <li><hr class="dropdown-divider"></li>';
             }
         }else{
-            echo 'No Notifications at this time.';
+            echo 'No new notifications.';
         }
     
     }
@@ -43,5 +43,14 @@ class Notifications extends Model
     {
         $the_notification = array('status' => 1, 'content' => $message, 'from' => $from, 'to' => $to, 'link' => $link ); //Appending required data.
         Notifications::create($the_notification);
+    }
+    public static function deleteNotification(int $id)
+    {
+        $notification = Notifications::where('id', $id)->first();
+        try{
+            $notification->delete();
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }
     }
 }

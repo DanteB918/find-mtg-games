@@ -98,4 +98,5 @@ use \App\Models\Games;
 </div>
 
 @endsection
+@include('footer')
 @include('game.game-ajax')

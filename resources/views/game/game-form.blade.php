@@ -17,4 +17,5 @@
         </form>
     </section>
 @endsection
+@include('footer')
 @include('game.game-ajax')

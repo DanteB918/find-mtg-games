@@ -32,6 +32,8 @@
                 </a>
                 
                 <a href="{{ route('games') }}" class="navbar-brand">Games</a>
+                <a href="{{ route('card-lookup') }}" class="navbar-brand">Card Lookup</a>
+                <a href="{{ route('deck-builder') }}" class="navbar-brand">Deck Builder</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>

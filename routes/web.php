@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\CardController;
+
 
 //Home Page
 Route::get('/', function () {
@@ -62,10 +64,13 @@ Route::get('/games', [GameController::class, 'showGames'])->name('games')->middl
 
  Route::delete('/notification/{id}/delete', [NotificationController::class, 'deleteNotification'])->name('deleteNotify');
 
-
  
 /**
  * End Game Routes
+ *  *-----------------------------------------
+ * Begin Card Routes
  */
+Route::get('/card-lookup', [CardController::class, 'cardLookup'])->name('card-lookup')->middleware('auth');
+Route::get('/deck-builder', [CardController::class, 'deckBuilder'])->name('deck-builder')->middleware('auth');
 
 

@@ -23,7 +23,36 @@ class UserController extends Controller
             echo 'user not found';
         }
     }
+    /**
+    *   Edit a User's info.
+    *   @param array $fields = POST fields.
+    */
+    public static function editProfile(Request $request)
+    {
+        $fields = $request->all();
+        try{
+            if ($fields['profile_pic']){
+                $image_name = User::uploadProfilePic(request('profile_pic'));
+            }
+            $user = User::where('id', Auth::id())->first();
+            $user->username = $fields['username'];
+            $user->profile_pic = $image_name;
+            $user->first_name = $fields['first_name'];
+            $user->last_name = $fields['last_name'];
+            $user->email = $fields['email'];
+            $user->state = $fields['state'];
+            $user->country = $fields['country'];
+            $user->update();
+            $user->refresh();
 
+            return redirect('/profile/' . Auth::id());
+
+        } catch (\Exception $e){
+            //$e->getMessage()
+            abort(403, 'Unauthorized Action');
+            return false;
+        }
+    }
     /**
     *   Logic for Editting user data
     *   @param int $id = id of given user in URL.
@@ -38,10 +67,5 @@ class UserController extends Controller
         }else{
             return view('home');
         }
-    }
-    public function EditProfile(Request $request) //POST Method
-    {
-        User::editProfile($request->all());
-        return redirect('/profile/' . Auth::id());
     }
 }

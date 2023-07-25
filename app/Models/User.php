@@ -26,6 +26,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'country',
+        'profile_pic',
         'state'
     ];
 
@@ -48,26 +49,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     /**
-    *   Edit a User's info.
-    *   @param array $fields = POST fields.
+    *   Upload profile pics, should return image name.
+    *   @param $image 
     */
-    public static function editProfile($fields)
+    public static function uploadProfilePic($image)
     {
         try{
-            $user = User::where('id', Auth::id())->first();
-            $user->username = $fields['username'];
-            $user->first_name = $fields['first_name'];
-            $user->last_name = $fields['last_name'];
-            $user->email = $fields['email'];
-            $user->state = $fields['state'];
-            $user->country = $fields['country'];
-            $user->update();
-            $user->refresh();
-
-        } catch (\Exception $e){
-            //$e->getMessage()
-            abort(403, 'Unauthorized Action');
-            return false;
+            if ($image->isFile()){
+                $image_name = $image->getClientOriginalName();
+                $image->move(public_path('images/profile_pics'), $image_name);
+                return $image_name;
+            }
+            
+        }catch (\Exception $e){
+            abort(403, $e->getMessage());
         }
     }
     /**

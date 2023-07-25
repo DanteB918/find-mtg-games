@@ -30,7 +30,7 @@ Route::get('/profile/{id}', [UserController::class, 'findProfile'])->name('profi
 
 //Edit user
 Route::get('/profile/{id}/edit', [UserController::class, 'EditProfileView'])->name('editProfileGet')->middleware('auth');
-Route::post('/profile/edit-complete', [UserController::class, 'EditProfile'])->name('editProfilePost')->middleware('auth');
+Route::post('/profile/edit-complete', [UserController::class, 'editProfile'])->name('editProfilePost')->middleware('auth');
 
 /**
  * End User Routes

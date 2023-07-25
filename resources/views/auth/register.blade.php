@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" enctype = multipart/form-data>
                         @csrf
                         <div class="row mb-3">
                             <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('Username') }}</label>
@@ -21,6 +21,15 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="profile_pic" class="col-md-4 col-form-label text-md-end">{{ __('Profile Picture') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="profile_pic" type="file" class="form-control" name="profile_pic" autocomplete="profile_pic" autofocus>
+
                             </div>
                         </div>
 
@@ -68,7 +77,7 @@
                             <label for="state" class="col-md-4 col-form-label text-md-end">{{ __('State') }}</label>
 
                             <div class="col-md-6">
-                                <select id="state" class="form-control @error('state') is-invalid @enderror" name="state" required value="{{$user->state}}">
+                                <select id="state" class="form-control @error('state') is-invalid @enderror" name="state" required>
                                     @include('reusable-options.states')
                                 </select>
                                 @error('state')

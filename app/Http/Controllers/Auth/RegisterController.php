@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 
 class RegisterController extends Controller
 {
@@ -50,12 +52,18 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'state' => ['required', 'string', 'max:255'],
-            'country' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'unique:users'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'first_name' => ['required', 'string', 'max:20'],
+            'last_name' => ['required', 'string', 'max:20'],
+            /*'profile_pic' => [
+                File::image()
+                    ->min(1024)
+                    ->max(12 * 1024)
+                    ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
+            ],*/
+            'state' => ['required', 'string', 'max:3'],
+            'country' => ['required', 'string', 'max:3'],
+            'username' => ['required', 'string', 'max:15', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -68,6 +76,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        if ($data['profile_pic']){
+            $image = request('profile_pic');
+            $image_name = User::uploadProfilePic($image);
+        }
+
         return User::create([
             'username' => $data['username'],
             'first_name' => $data['first_name'],
@@ -75,7 +88,9 @@ class RegisterController extends Controller
             'country' => $data['country'],
             'state' => $data['state'],
             'email' => $data['email'],
+            'profile_pic' => $image_name,
             'password' => Hash::make($data['password']),
         ]);
+
     }
 }

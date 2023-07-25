@@ -42,5 +42,4 @@ RUN php artisan key:generate
 WORKDIR /var/www/html/public
 
 # Set folder permissions
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public/images

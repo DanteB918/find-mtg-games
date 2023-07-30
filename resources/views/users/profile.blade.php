@@ -2,18 +2,25 @@
 
 @section('content')
 
-<div class="container">
+<div class="container profile-container">
     <div class="row">
-        <div class="col-md-4 profile-pic">
-            <?php if ($user->profile_pic) : ?>
-                <img src="<?= asset('images/profile_pics/' . $user->profile_pic); ?>" alt="Profile pic of {{__($user->username)}}" />
-            <?php endif; ?>
+    <?php if ( $user->profile_pic ) : ?>
+        <div class="col-md-4">
+            <img src="<?= asset('images/profile_pics/' . $user->profile_pic); ?>" class="profile-container__pic" alt="Profile pic of {{__($user->username)}}" />
         </div>
         <div class="col-md-8">
             <p>{{$user->username}}</p>
             <p>Location: {{ $user->state }}, {{ $user->country }}</p>
             <p>Member Since: {{ $user->created_at }}</p>
         </div>
+    <?php else : ?>
+        <div class="col-12" align="center">
+            <p>{{$user->username}}</p>
+            <p>Location: {{ $user->state }}, {{ $user->country }}</p>
+            <p>Member Since: {{ $user->created_at }}</p>
+        </div>
+
+    <?php endif; ?>
 
        
 

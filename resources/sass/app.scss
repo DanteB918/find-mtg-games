@@ -130,8 +130,13 @@
 /*
 *   Profile page styles
 */
-.profile-pic img{
-    width: 100%;
-    border-radius: 50%;
-    padding: 5%;
+.profile-container{
+    font-size: 1.25rem;
+    /*font-family: 'MedievalSharp', cursive;*/
+    font-family: 'Sorts Mill Goudy', serif;
+    &__pic{
+        width: 100%;
+        border-radius: 50%;
+        padding: 5%;
+    }
 }

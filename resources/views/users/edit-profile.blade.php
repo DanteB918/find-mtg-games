@@ -28,12 +28,19 @@ use \App\Models\User;
                                 @enderror
                             </div>
                         </div>
+                        <?php if ( $user->profile_pic ) : ?>
+                            <div style="display: flex; justify-content: center;">
+                                <div class="col-md-4">
+                                    <img src="<?= asset('images/profile_pics/' . $user->profile_pic); ?>" class="profile-container__pic" alt="Profile pic of {{__($user->username)}}" />
+                                </div>
+                            </div>
+                        <?php endif; ?>
 
                         <div class="row mb-3">
                             <label for="profile_pic" class="col-md-4 col-form-label text-md-end">{{ __('Profile Picture') }}</label>
 
                             <div class="col-md-6">
-                                <input id="profile_pic" type="file" class="form-control" name="profile_pic"  autocomplete="profile_pic" autofocus>
+                                <input id="profile_pic" type="file" class="form-control" name="profile_pic" value="{{$user->profile_pic}}"  autocomplete="profile_pic" autofocus>
                             </div>
                         </div>
 

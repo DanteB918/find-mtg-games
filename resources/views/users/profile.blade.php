@@ -3,15 +3,15 @@
 @section('content')
 
 <div class="container profile-container">
-    <div class="row">
+    <div class="row align-items-center">
     <?php if ( $user->profile_pic ) : ?>
         <div class="col-md-4">
             <img src="<?= asset('images/profile_pics/' . $user->profile_pic); ?>" class="profile-container__pic" alt="Profile pic of {{__($user->username)}}" />
         </div>
         <div class="col-md-8">
-            <p>{{$user->username}}</p>
-            <p>Location: {{ $user->state }}, {{ $user->country }}</p>
-            <p>Member Since: {{ $user->created_at }}</p>
+            <p><span class="profile-container__username">{{$user->username}}</span></p>
+            <p>Location: <span>{{ $user->state }}, {{ $user->country }}</span></p>
+            <p>Member Since: <span><?= date('Y-m-d', strtotime($user->created_at)); ?></span></p>
         </div>
     <?php else : ?>
         <div class="col-12" align="center">

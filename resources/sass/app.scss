@@ -13,6 +13,10 @@
     padding:1%;
     border: 1px solid black;
 }
+
+/*
+*   Games styles
+*/
 .outter-games{
     width: 100%;
     display: flex;
@@ -145,4 +149,22 @@
         border-radius: 50%;
         padding: 5%;
     }
+}
+
+/*
+*   Nav styles
+*/
+.amount-notify{
+    position: absolute;
+    top: 0;
+    right: 15;
+    font-size: .75em;
+    color: white;
+    background-color: #e65054;
+    border-radius: 50%;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }

@@ -21,6 +21,22 @@ class Notifications extends Model
         'from',
         'to' ];
     protected $table = 'notifications';
+    /**
+     * Display number of notifications.
+     * @return int = # of notifications
+     */
+    public static function amountNotifications()
+    {
+        $notifications = Notifications::where('to', Auth::id())
+        ->where('status', 1)
+        ->orderby('created_at', 'DESC')
+        ->get();
+        
+        return count($notifications);
+    }
+    /**
+     * Function that displays the list of notifications.
+     */
     public static function showUserNotifications()
     {
         $notifications = Notifications::where('to', Auth::id())

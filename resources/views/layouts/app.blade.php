@@ -67,6 +67,10 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fa-regular fa-bell"></i>
+                                <?php if (Notifications::amountNotifications() > 0) : ?>
+                                    <p class="amount-notify">{{__(Notifications::amountNotifications())}}</p>
+                                <?php endif; ?>
+
                             </a>
                             <ul class="dropdown-menu">
                                 <?=Notifications::showUserNotifications(); ?>

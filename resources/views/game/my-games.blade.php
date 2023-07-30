@@ -22,44 +22,7 @@ use \App\Models\Games;
                     @if ($games)
                     <div class="outter-games">
                             @foreach($games as $game)
-                            <?php 
-                                $current_user_ids = Games::currentPlayers($game->id);
-                                $players_in_game = User::showAllUsersInArray($current_user_ids); 
-                                $num_players_in_game = count($players_in_game);       
-                             ?>
-                                <div class="inner-games row game-<?=$game->id?>">
-                                    <div class="inner-games__info col-md-8">
-                                        {{__('Location:')}} {{ $game->state }}, {{$game->country}} <br />
-                                        When: {{$game->date}} at <?= date("g:i a", strtotime($game->time)); ?><br />
-                                        Power Level: {{$game->power_level}}<br />
-                                        Number of Players: {{$game->number_players}}<br />
-                                        Format: {{$game->format}} <br />
-                                        Description: {{$game->description}}<br />
-                                        Created By: <a href="/profile/<?=$game->created_by?>">{{ User::findUser($game->created_by)->username; }}</a>
-                                    </div>
-                                    <div class="inner-games__options col-md-4">
-                                        <p>Players in game: 
-                                            <?php for ($i=0; $i <= $num_players_in_game - 1; $i++): ?>
-                                                    <a href="/profile/<?=$players_in_game[$i]->id?>"><?=$players_in_game[$i]->username; ?></a>
-                                                    <br />
-                                            <?php endfor; ?>
-                                        </p>
-                                       <p><?= $num_players_in_game; ?> out of {{ $game->number_players }} players found.</p>
-                                        <div class="bottom">
-                                        <a href="/game/<?=$game->id;?>" class="btn btn-secondary see-game">See Game</a>
-
-                                            <?php if($game->date >= date("Y-m-d") || $num_players_in_game === $game->number_players): ?>
-                                                <br /><span class="green">Completed <i class="fa-solid fa-check"></i></span>
-                                            <?php else: ?>
-                                                <?php if($game->currentUserInGame() && $game->date >= date("Y-m-d") && $game->created_by != Auth::id() && $game->status === 1): ?>
-                                                    <a href="/games/<?=$game->id;?>/leave" class="btn btn-secondary leave-join-game">Leave Game</a>
-                                                <?php elseif($game->created_by === Auth::id() && $game->status === 1): ?>
-                                                    <a onClick="deleteGame(<?=$game->id;?>)" class="btn btn-secondary delete-btn">Delete Game</a>
-                                                <?php endif;?>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                </div>
+                                @include('game.game-loop')
                             @endforeach
                     </div>
                     <?php

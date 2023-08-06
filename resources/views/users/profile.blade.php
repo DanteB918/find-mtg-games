@@ -1,3 +1,7 @@
+<?php
+use \App\Models\User;
+?>
+
 @extends('layouts.app')
 
 @section('content')
@@ -10,16 +14,17 @@
         </div>
         <div class="col-md-8">
             <p><span class="profile-container__username">{{$user->username}}</span></p>
+            <p><?= User::currentUserOnlineStatus($user->id); ?></p>
             <p>Location: <span>{{ $user->state }}, {{ $user->country }}</span></p>
             <p>Member Since: <span><?= date('Y-m-d', strtotime($user->created_at)); ?></span></p>
         </div>
     <?php else : ?>
         <div class="col-12" align="center">
+            <p><?= User::currentUserOnlineStatus($user->id); ?></p>
             <p>{{$user->username}}</p>
             <p>Location: {{ $user->state }}, {{ $user->country }}</p>
             <p>Member Since: {{ $user->created_at }}</p>
         </div>
-
     <?php endif; ?>
 
        

@@ -9,8 +9,10 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.8",
         "laravel/sanctum": "^3.2",
+        "laravel/socialite": "^5.8",
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.2",
+        "livewire/livewire": "^2.12",
         "symfony/filesystem": "^6.3"
     },
     "require-dev": {

@@ -29,9 +29,11 @@ use \App\Models\User;
 
        
 
-        <?php if(Auth::id() === $user->id): //Show only if logged in user is same as current user. ?>
+        <?php if( Auth::id() === $user->id ): //Show only if logged in user is same as current user. ?>
             <hr>
             <a href="/profile/{{Auth::id()}}/edit">Edit Profile</a>    
+        <?php elseif(Auth::check()): ?>
+            <livewire:add-friend-btn :user="$user" /> 
         <?php endif; ?>
         <p></p>
     </div>

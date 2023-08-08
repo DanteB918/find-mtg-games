@@ -30,7 +30,6 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN docker-php-ext-install \
     pdo_mysql
 
-RUN composer require laravel/ui
 # Install project dependencies
 RUN composer install --optimize-autoloader --no-dev
 

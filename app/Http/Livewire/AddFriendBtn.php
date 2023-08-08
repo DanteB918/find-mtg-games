@@ -20,7 +20,9 @@ class AddFriendBtn extends Component
     public function addFriend()
     {
         $this->content = 'Sent!';
+        session()->flash('message', 'Friend Request Successfully Sent!');
         Notifications::newNotification('New friend request from ' . User::find(Auth::id())->username, Auth::id(), $this->userid, route('profile', Auth::id()));
+        //session()->forget('message');
     }
     public function render()
     {

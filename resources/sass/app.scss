@@ -8,6 +8,12 @@
 @import 'bootstrap/scss/bootstrap';
 
 
+.alert-cont{
+    position: fixed;
+    right: 5%;
+    top: 5%;
+    transition: .5s;
+}
 
 .btn{
     padding:1%;

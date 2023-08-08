@@ -28,7 +28,7 @@
                             <label for="profile_pic" class="col-md-4 col-form-label text-md-end">{{ __('Profile Picture') }}</label>
 
                             <div class="col-md-6">
-                                <input id="profile_pic" type="file" class="form-control" name="profile_pic" autocomplete="profile_pic" autofocus>
+                                <input id="profile_pic" type="file" class="form-control" name="profile_pic" value="{{ old('profile_pic') }}" autocomplete="profile_pic" autofocus>
 
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                             <label for="country" class="col-md-4 col-form-label text-md-end">{{ __('Country') }}</label>
 
                             <div class="col-md-6">
-                                <select id="country" class="form-control @error('country') is-invalid @enderror" name="country"  required>
+                                <select id="country" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ old('country') }}" autocomplete="country" autofocus required>
                                     @include('reusable-options.countries')
                                 </select>
                                 @error('country')
@@ -77,7 +77,7 @@
                             <label for="state" class="col-md-4 col-form-label text-md-end">{{ __('State') }}</label>
 
                             <div class="col-md-6">
-                                <select id="state" class="form-control @error('state') is-invalid @enderror" name="state" required>
+                                <select id="state" class="form-control @error('state') is-invalid @enderror" value="{{ old('state') }}" name="state" required>
                                     @include('reusable-options.states')
                                 </select>
                                 @error('state')

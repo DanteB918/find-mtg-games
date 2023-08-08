@@ -76,7 +76,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        if ($data['profile_pic']){
+        if (isset($data['profile_pic'])){
             $image = request('profile_pic');
             $image_name = User::uploadProfilePic($image);
         }
@@ -88,7 +88,7 @@ class RegisterController extends Controller
             'country' => $data['country'],
             'state' => $data['state'],
             'email' => $data['email'],
-            'profile_pic' => $image_name,
+            'profile_pic' => $image_name ?? NULL,
             'password' => Hash::make($data['password']),
         ]);
 

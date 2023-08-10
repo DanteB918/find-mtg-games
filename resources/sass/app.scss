@@ -13,6 +13,9 @@
     right: 5%;
     top: 5%;
     transition: .5s;
+    .alert:hover{
+        cursor: pointer;
+    }
 }
 
 .btn{

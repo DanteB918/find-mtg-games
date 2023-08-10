@@ -54,12 +54,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'first_name' => ['required', 'string', 'max:20'],
             'last_name' => ['required', 'string', 'max:20'],
-            /*'profile_pic' => [
-                File::image()
-                    ->min(1024)
-                    ->max(12 * 1024)
-                    ->dimensions(Rule::dimensions()->maxWidth(1000)->maxHeight(500)),
-            ],*/
+            /*'profile_pic' => ['image | mimes:jpg,jpeg,png,webp'],*/
             'state' => ['required', 'string', 'max:3'],
             'country' => ['required', 'string', 'max:3'],
             'username' => ['required', 'string', 'max:15', 'unique:users'],
@@ -79,7 +74,7 @@ class RegisterController extends Controller
         if (isset($data['profile_pic'])){
             $image = request('profile_pic');
             $image_name = User::uploadProfilePic($image);
-        }
+    }
 
         return User::create([
             'username' => $data['username'],
@@ -88,7 +83,7 @@ class RegisterController extends Controller
             'country' => $data['country'],
             'state' => $data['state'],
             'email' => $data['email'],
-            'profile_pic' => $image_name ?? NULL,
+            'profile_pic' => $image_name ?? 'wiz-profile-pic.png',
             'password' => Hash::make($data['password']),
         ]);
 

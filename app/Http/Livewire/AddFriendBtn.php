@@ -28,4 +28,8 @@ class AddFriendBtn extends Component
     {
         return view('livewire.add-friend-btn');
     }
+    public function deleteFlash()
+    {
+        session()->forget('message');
+    }
 }

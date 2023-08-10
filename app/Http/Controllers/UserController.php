@@ -31,12 +31,14 @@ class UserController extends Controller
     {
         $fields = $request->all();
         try{
-            if ($fields['profile_pic']){
-                $image_name = User::uploadProfilePic(request('profile_pic'));
-            }
             $user = User::where('id', Auth::id())->first();
+
+            if (isset($fields['profile_pic'])){
+                $image_name = User::uploadProfilePic(request('profile_pic'));
+                $user->profile_pic = $image_name;
+            }
+            
             $user->username = $fields['username'];
-            $user->profile_pic = $image_name;
             $user->first_name = $fields['first_name'];
             $user->last_name = $fields['last_name'];
             $user->email = $fields['email'];

@@ -2,8 +2,8 @@
 use App\Models\User;
 ?>
     <form method="GET" action="/">
-        <label for="user">Search by Username:</label>
-            <input type="text" name="user" placeholder="{{ $placeholder }}" value="{{ $param }}" />
+        <label for="{{ $searching_for }}">Search by Username:</label>
+            <input type="text" name="{{ $searching_for }}" placeholder="{{ $placeholder }}" value="{{ $param }}" />
             <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
     </form>
     <?php if ($_GET) : ?>

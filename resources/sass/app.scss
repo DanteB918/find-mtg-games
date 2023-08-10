@@ -160,21 +160,26 @@
 /*
 *   Nav styles
 */
-.amount-notify{
-    position: absolute;
-    top: 0;
-    right: 15;
-    font-size: .75em;
-    color: white;
-    background-color: #e65054;
-    border-radius: 50%;
-    width: 40%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    @media screen and (max-width: 768px) {
-        left: 0;
-        width: 4.75%;
+.notification{
+    &__menu:hover{
+        cursor: pointer;
+    }
+    &__amount{
+        position: absolute;
+        top: 0;
+        right: 15;
+        font-size: .75em;
+        color: white;
+        background-color: #e65054;
+        border-radius: 50%;
+        width: 40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @media screen and (max-width: 768px) {
+            left: 0;
+            width: 4.75%;
+        }
     }
 }
 .dropdown-menu[data-bs-popper]{

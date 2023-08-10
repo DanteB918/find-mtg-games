@@ -7,21 +7,32 @@
 
         <?php if ($this->amountNotifications() > 0) : ?>
             
-            <p class="amount-notify"><?=$this->amountNotifications();?></p>
+            <p class="notification__amount"><?=$this->amountNotifications();?></p>
         
         <?php endif; ?>
     </a>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu notification__menu">
         <?php $notifications = Notifications::showUserNotifications(); ?>
 
 
         <?php if (!$notifications->isEmpty()) : ?>
+            <?php $x = 0; ?>
             <?php foreach($notifications as $notification) :  $notification->refresh(); ?>
-                <li class="notify-<?=$notification->id;?>" wire:click="deleteAndRedirect('{{$notification->link}}', {{$notification->id}})">
-                    <a class="dropdown-item"><?=$notification->content;?></a>
-                </li>
-                <li><hr class="dropdown-divider"></li>
+                <?php if ($x < 11) : ?>
+                    <li class="notify-<?=$notification->id;?>"
+                    wire:click="deleteAndRedirect('{{$notification->link}}', {{$notification->id}})">
+                        <a class="dropdown-item"><?=$notification->content;?></a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <?php $x++; ?>
+                    <?php if ($x === 11) : ?>
+                        <a href="/" class="dropdown-item"><u>See all notifications</u></a>
+                    <?php endif; ?>
+                <?php endif; ?>
+
+                
             <?php endforeach; ?>
+
         <?php else : ?>
             No new notifications.
         <?php endif; ?>

@@ -22,38 +22,17 @@ class Notifications extends Model
         'to' ];
     protected $table = 'notifications';
     /**
-     * Display number of notifications.
-     * @return int = # of notifications
-     */
-    public static function amountNotifications()
-    {
-        $notifications = Notifications::where('to', Auth::id())
-        ->where('status', 1)
-        ->orderby('created_at', 'DESC')
-        ->get();
-        
-        return count($notifications);
-    }
-    /**
      * Function that displays the list of notifications.
      */
-    public static function showUserNotifications()
+    public static function showUserNotifications(): Object
     {
         $notifications = Notifications::where('to', Auth::id())
         ->where('status', 1)
         ->orderby('created_at', 'DESC')
         ->get();
-        if (!$notifications->isEmpty()){
-            foreach($notifications as $notification)
-            {
-                $notification->refresh();
-                echo '<li class="notify-' . $notification->id . '" onClick="deleteNotify(' . $notification->id . ')"><a class="dropdown-item" href="' . $notification->link . '">'. $notification->content . '</a></li>'
-                . ' <li><hr class="dropdown-divider"></li>';
-            }
-        }else{
-            echo 'No new notifications.';
-        }
-    
+
+        return $notifications;
+
     }
     public static function newNotification($message, $from, $to, $link)
     {

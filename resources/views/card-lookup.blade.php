@@ -4,7 +4,7 @@
   <div class="container lookup">
     <h1>MTG Card Lookup</h1>
     <input type="text" id="cardNameInput" placeholder="Enter card name">
-    <button onclick="searchCard()">Search</button>
+    <button onclick="searchCard()"><i class="fa-solid fa-magnifying-glass"></i></button>
     <div id="cardData"></div>
   </div>
 @endsection

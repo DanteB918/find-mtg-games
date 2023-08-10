@@ -30,7 +30,7 @@ class Search extends Component
     }
     public function searchUsers()
     {
-        $this->results = User::where('username', $this->param)->get();
+        $this->results = User::where('username', 'like', '%' . $this->param . '%')->get();
     }
     public function redirectToSearch()
     {

@@ -18,6 +18,9 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+//Search page
+Route::get('/search', [App\Http\Controllers\UserController::class, 'search'])->name('search');
+
 /**
  * Begin User Routes
  */

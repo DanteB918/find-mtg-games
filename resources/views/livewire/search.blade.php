@@ -1,7 +1,7 @@
 <?php
 use App\Models\User;
 ?>
-    <form method="GET" action="/">
+    <form method="GET" action="/search">
         <label for="{{ $searching_for }}">Search by Username:</label>
             <input type="text" name="{{ $searching_for }}" placeholder="{{ $placeholder }}" value="{{ $param }}" />
             <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -13,7 +13,7 @@ use App\Models\User;
                     <div class="col-md-3">
                         <img src="<?= asset('images/profile_pics/' . $result->profile_pic); ?>" class="profile-container__pic" alt="Profile pic of {{__($result->username)}}" />
                     </div>
-                    <div class="col-md-7">
+                <div class="col-md-7">
                         <p><?=$result->username;?></p>
                         <p>Location: <span>{{ $result->state }}, {{ $result->country }}</span></p>
                     </div>

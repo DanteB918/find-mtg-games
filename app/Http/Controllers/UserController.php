@@ -23,6 +23,11 @@ class UserController extends Controller
             echo 'user not found';
         }
     }
+
+    public function search(): view 
+    {
+        return view('search');
+    }
     /**
     *   Edit a User's info.
     *   @param array $fields = POST fields.

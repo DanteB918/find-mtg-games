@@ -43,7 +43,7 @@ class Friends extends Model
         //now that all  users are appended to list, let's get all of their User objects.
         $final_list = [];
         foreach ($friend_list as $friend){
-            $final_list[] = User::find($friend)->first();
+            $final_list[] = User::find($friend);
         }
 
         return $final_list;
@@ -82,6 +82,19 @@ class Friends extends Model
             return 1; // Yes friends.
         } else {
             return 0; // no, not friends
+        }
+    }
+    public static function deleteFriend($id)
+    {
+        $friend = Friends::where(function ($query) use ($id) {
+            $query->where('user_id', $id)->where('status', 0);
+        })->orWhere(function ($query) use ($id) {
+            $query->where('friend_id', $id)->where('status', 0);
+        })->first();
+        try{
+            $friend->delete();
+        }catch(\Exception $e){
+            echo $e->getMessage();
         }
     }
 }

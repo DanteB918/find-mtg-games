@@ -20,10 +20,17 @@ class AddFriendBtn extends Component
 
     public function addFriend()
     {
-        $this->content = 'Sent!';
-        Friends::addFriend($this->userid);
-        Notifications::newNotification('New friend request from ' . User::find(Auth::id())->username, Auth::id(), $this->userid, route('profile', Auth::id()));
-        session()->flash('message', 'Friend Request Successfully Sent!');
+        if ($this->content != 'Sent!'){ //Already sent friend request
+            $this->content = 'Sent!';
+            Friends::addFriend($this->userid);
+            Notifications::newNotification('New friend request from ' . User::find(Auth::id())->username, Auth::id(), $this->userid, route('profile', Auth::id()));
+            session()->flash('message', 'Friend Request Successfully Sent!');
+        }else{ //Cancel request if we press btn again
+            Friends::deleteFriend(Auth::id());
+            session()->flash('message', 'Friend Request has been cancelled');
+            $this->content = 'Add Friend';
+        }
+
     }
     public function render()
     {

@@ -13,7 +13,7 @@ use \App\Models\Games;
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Games') }}</div>
+                <div class="card-header">{{ __('Game:') }}</div>
 
                 <div class="card-body">
                     @if ($game)

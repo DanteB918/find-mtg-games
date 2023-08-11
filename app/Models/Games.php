@@ -186,12 +186,6 @@ class Games extends Model
      */
     public static function showUsersGames()
     {
-        $userGames = [];
-        foreach (Games::getAllGames() as $game){
-            if ($game->currentUserInGame()){
-                array_push($userGames, $game);
-            }
-        }
-        return $userGames;
+        return Games::orderby('status', 'DESC')->whereJsonContains('current_players', [Auth::id()] )->paginate(5);
     }
 }

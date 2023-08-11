@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('friend_id');
-            $table->bool('status'); //active or pending
+            $table->boolean('status'); //active or pending
             $table->timestamps();
 
             // Define foreign keys

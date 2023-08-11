@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use SebastianBergmann\Type\VoidType;
 
 class Friends extends Model
 {
@@ -84,7 +85,7 @@ class Friends extends Model
             return 0; // no, not friends
         }
     }
-    public static function deleteFriend($user_id, $friend_id)
+    public static function deleteFriend($user_id, $friend_id): Void
     {
         $friend = Friends::where(function ($query) use ($user_id, $friend_id) {
             $query->where('user_id', $user_id)->where('friend_id', $friend_id)->where('status', 0);
@@ -96,5 +97,16 @@ class Friends extends Model
         }catch(\Exception $e){
             echo $e->getMessage();
         }
+    }
+    public static function getAllFriendRequests()
+    {
+        $user_id = Auth::id();
+        $requests = Friends::where(function ($query) use ($user_id) {
+            $query->where('user_id', $user_id)->where('status', 0);
+        })->orWhere(function ($query) use ($user_id) {
+            $query->where('friend_id', $user_id)->where('status', 0);
+        })->get();
+
+        return $requests;
     }
 }

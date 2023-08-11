@@ -7,7 +7,7 @@ $current_user_ids = Games::currentPlayers($game->id);
 $players_in_game = User::showAllUsersInArray($current_user_ids); 
 $num_players_in_game = count($players_in_game);     
 ?>
-    <div class="inner-games row game-<?=$game->id?>">
+    <div class="inner-games row game-<?=$game->id?> loop-border">
         <div class="inner-games__info col-md-8">
             Location: <?= $game->state ?>, <?=$game->country?> <br />
             When: <?= $game->date ?> at <?= date("g:i a", strtotime($game->time)); ?><br />
@@ -23,7 +23,7 @@ $num_players_in_game = count($players_in_game);
                     <?php if ( $players_in_game[$i]->profile_pic ) : ?>
                             <div class="col-md-2">
                                 <a href="/profile/<?=$players_in_game[$i]->id?>">
-                                    <img src="<?= asset('images/profile_pics/' . $players_in_game[$i]->profile_pic); ?>" class="profile-container__pic" alt="Profile pic of {{__($players_in_game[$i]->username)}}" />
+                                    <img src="<?= asset('images/profile_pics/' . $players_in_game[$i]->profile_pic); ?>" class="profile-container__pic" alt="Profile pic of {{__($players_in_game[$i]->username)}}" style="max-width:75px;" />
                                 </a>
                             </div>
                             <a href="/profile/<?=$players_in_game[$i]->id?>"><?=$players_in_game[$i]->username; ?></a>

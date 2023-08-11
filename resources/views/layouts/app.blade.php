@@ -29,6 +29,15 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
+    <div class="alert-cont">
+        @if (session()->has('message'))
+        
+            <div class="alert alert-success" wire:click="deleteFlash">
+                {{ session('message') }} <i class="fa-solid fa-user-check"></i>
+            </div>
+        @endif
+    </div>
+
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -65,6 +74,8 @@
                                 </li>
                             @endif
                         @else
+                        <li class="nav-link"><a href="{{ route('search') }}" class="nav-link"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+                        
      
                         <livewire:nav-notifications /> 
                         

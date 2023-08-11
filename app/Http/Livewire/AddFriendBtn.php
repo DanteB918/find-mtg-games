@@ -22,14 +22,9 @@ class AddFriendBtn extends Component
         $this->content = 'Sent!';
         session()->flash('message', 'Friend Request Successfully Sent!');
         Notifications::newNotification('New friend request from ' . User::find(Auth::id())->username, Auth::id(), $this->userid, route('profile', Auth::id()));
-        //session()->forget('message');
     }
     public function render()
     {
         return view('livewire.add-friend-btn');
-    }
-    public function deleteFlash()
-    {
-        session()->forget('message');
     }
 }

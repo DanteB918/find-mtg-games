@@ -90,6 +90,7 @@ class Games extends Model
         $all_fields = array_merge($fields, $status);
         $newGame = Games::create($all_fields);
         $newGame->refresh();
+        return $newGame;
     }
     /**
     *   Function for returning array of current player's ID's registered to a game.

@@ -9,16 +9,18 @@ use App\Models\User;
     <?php if ($_GET) : ?>
         <?php foreach ($results as $result) : ?>
             <?php  if ( $_GET['user'] ) : ?>
-                <div class="row">
-                    <div class="col-md-3">
-                        <img src="<?= asset('images/profile_pics/' . $result->profile_pic); ?>" class="profile-container__pic" alt="Profile pic of {{__($result->username)}}" />
+                <div class="row loop-border search">
+                    <div class="col-3">
+                        <a href="{{ route('profile', $result->id) }}">
+                            <img src="<?= asset('images/profile_pics/' . $result->profile_pic); ?>" class="profile-container__pic" alt="Profile pic of {{__($result->username)}}" />
+                        </a>
                     </div>
-                <div class="col-md-7">
-                        <p><?=$result->username;?></p>
+                    <div class="col-7">
+                        <a href="{{ route('profile', $result->id) }}"><?=$result->username;?></a>
                         <p>Location: <span>{{ $result->state }}, {{ $result->country }}</span></p>
                     </div>
-                    <div class="col-md-2">
-                    <p><?= User::currentUserOnlineStatus($result->id); ?></p>
+                    <div class="col-2">
+                        <p><?= User::currentUserOnlineStatus($result->id); ?></p>
                     </div>
                 </div>
             <?php endif; ?>

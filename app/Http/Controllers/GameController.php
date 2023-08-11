@@ -67,8 +67,10 @@ class GameController extends Controller
             'number_players' => ['required'],
             'description' => ['required', 'max: 200']
         ]);
-        Games::createGame($request->all());
-        return view('game.game-form-submitted');
+        $newGame = Games::createGame($request->all());
+        session()->flash('message', 'Game successfully created');
+        return redirect()->to(route('singleGame', $newGame->id));
+
     }
 
 }

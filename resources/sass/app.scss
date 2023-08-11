@@ -16,12 +16,36 @@
     .alert:hover{
         cursor: pointer;
     }
+    z-index: 9999;
 }
 
 .btn{
-    padding:1%;
+    padding: 1%;
     border: 1px solid black;
 }
+
+.loop-border{
+    border-bottom: 1px solid black;
+    &:last-child{
+        border: 0 !important;
+    }
+}
+/*
+*   Search page styles
+*/
+.search{
+    a{
+        font-size: 1.25rem;
+        font-family: 'Sorts Mill Goudy', serif;
+        color: black;
+    }
+    p{
+        font-size: 1rem;
+        font-family: 'Sorts Mill Goudy', serif;
+        color: black;
+    }
+}
+
 
 /*
 *   Games styles
@@ -32,10 +56,6 @@
     flex-direction: column;
     .inner-games{
         padding: 2%;
-        border-bottom: 1px solid black;
-        &:last-child{
-            border: 0 !important;
-        }
         &__info{
             
         }

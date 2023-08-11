@@ -58,7 +58,8 @@ class User extends Authenticatable
     {
         try{
             if ($image->isFile()){
-                $image_name = $image->getClientOriginalName();
+                //$image_name = $image->getClientOriginalName();
+                $image_name =  strval(Auth::id()) . '.jpg';
                 $image->move(public_path('images/profile_pics'), $image_name);
                 return $image_name;
             }

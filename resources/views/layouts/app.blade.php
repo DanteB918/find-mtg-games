@@ -29,14 +29,13 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
-    <div class="alert-cont">
         @if (session()->has('message'))
-        
-            <div class="alert alert-success" wire:click="deleteFlash">
-                {{ session('message') }} <i class="fa-solid fa-user-check"></i>
+            <div class="alert-cont">
+                <div class="alert alert-success">
+                    {{ session('message') }} <i class="fa-solid fa-check"></i>
+                </div>
             </div>
         @endif
-    </div>
 
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">

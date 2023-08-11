@@ -1,5 +1,7 @@
 <?php
 use \App\Models\User;
+use App\Models\Friends;
+use Illuminate\Support\Facades\Auth;
 ?>
 
 @extends('layouts.app')
@@ -16,8 +18,11 @@ use \App\Models\User;
             <p><?= User::currentUserOnlineStatus($user->id); ?></p>
             <p>Location: <span>{{ $user->state }}, {{ $user->country }}</span></p>
             <p>Member Since: <span><?= date('Y-m-d', strtotime($user->created_at)); ?></span></p>
+            <?php if ( Friends::checkIfFriends(Auth::id(), $user->id) ) : //let user know if this person is a friend! ?>
+                <p>You are friends with this user.</p>
+            <?php endif; ?>
         </div>
-        
+
         <?php if( Auth::id() === $user->id ): //Show only if logged in user is same as current user. ?>
             <hr>
             <a href="/profile/{{Auth::id()}}/edit">Edit Profile</a>    

@@ -23,8 +23,30 @@ class Friends extends Model
 
     public static function getAllUsersFriends()
     {
-        //work in progress
-        return Friends::all();
+        $user_id = Auth::id();
+        
+        $friends = Friends::where(function ($query) use ($user_id) {
+            $query->where('user_id', $user_id)->where('status', 1);
+        })->orWhere(function ($query) use ($user_id) {
+            $query->where('friend_id', $user_id)->where('status', 1);
+        })->get();
+
+        $friend_list = [];
+        foreach ($friends as $friend){ //find all ID's now other than users.
+            if ($friend->user_id != Auth::id()){
+                $friend_list[] = $friend->user_id;
+            }
+            if ($friend->friend_id != Auth::id()){
+                $friend_list[] = $friend->friend_id;
+            }
+        }
+        //now that all  users are appended to list, let's get all of their User objects.
+        $final_list = [];
+        foreach ($friend_list as $friend){
+            $final_list[] = User::find($friend)->first();
+        }
+
+        return $final_list;
     }
     public static function addFriend(int $friend_id)
     {
@@ -33,7 +55,7 @@ class Friends extends Model
         $newFriend->refresh();
         return $newFriend;
     }
-    public static function checkIfPending($user_id, $friend_id)
+    public static function checkIfPending($user_id, $friend_id): bool
     {
         $areFriends = Friends::where(function ($query) use ($user_id, $friend_id) {
             $query->where('user_id', $user_id)->where('friend_id', $friend_id)->where('status', 0);
@@ -48,7 +70,7 @@ class Friends extends Model
         }
     }
 
-    public static function checkIfFriends($user_id, $friend_id)
+    public static function checkIfFriends($user_id, $friend_id): bool
     {
         $areFriends = Friends::where(function ($query) use ($user_id, $friend_id) {
             $query->where('user_id', $user_id)->where('friend_id', $friend_id)->where('status', 1);

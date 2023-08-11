@@ -74,6 +74,7 @@
                             @endif
                         @else
                         <li class="nav-item"><a href="{{ route('search') }}" class="nav-link"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+                        <li class="nav-item"><a href="{{ route('friendslist') }}" class="nav-link"><i class="fa-solid fa-user-group"></i></a></li>
                         
      
                         <livewire:nav-notifications /> 

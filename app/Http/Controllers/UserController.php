@@ -60,6 +60,10 @@ class UserController extends Controller
             return false;
         }
     }
+    public function friendsList(): View
+    {
+        return view('users.friendlist');
+    }
     /**
     *   Logic for Editting user data
     *   @param int $id = id of given user in URL.

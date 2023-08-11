@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'MTG Finder'),
+    'name' => env('APP_NAME', 'MTG GatherHub'),
 
     /*
     |--------------------------------------------------------------------------

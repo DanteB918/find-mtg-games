@@ -42,7 +42,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'MTG Finder') }}
+                    {{ config('app.name', 'MTG GatherHub') }}
                 </a>
                 
                 <a href="{{ route('games') }}" class="navbar-brand">Games</a>
@@ -74,7 +74,7 @@
                                 </li>
                             @endif
                         @else
-                        <li class="nav-link"><a href="{{ route('search') }}" class="nav-link"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+                        <li class="nav-item"><a href="{{ route('search') }}" class="nav-link"><i class="fa-solid fa-magnifying-glass"></i></a></li>
                         
      
                         <livewire:nav-notifications /> 

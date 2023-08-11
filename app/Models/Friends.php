@@ -84,12 +84,12 @@ class Friends extends Model
             return 0; // no, not friends
         }
     }
-    public static function deleteFriend($id)
+    public static function deleteFriend($user_id, $friend_id)
     {
-        $friend = Friends::where(function ($query) use ($id) {
-            $query->where('user_id', $id)->where('status', 0);
-        })->orWhere(function ($query) use ($id) {
-            $query->where('friend_id', $id)->where('status', 0);
+        $friend = Friends::where(function ($query) use ($user_id, $friend_id) {
+            $query->where('user_id', $user_id)->where('friend_id', $friend_id)->where('status', 0);
+        })->orWhere(function ($query) use ($user_id, $friend_id) {
+            $query->where('friend_id', $user_id)->where('user_id', $friend_id)->where('status', 0);
         })->first();
         try{
             $friend->delete();

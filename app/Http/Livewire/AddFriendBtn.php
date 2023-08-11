@@ -26,18 +26,16 @@ class AddFriendBtn extends Component
             Notifications::newNotification('New friend request from ' . User::find(Auth::id())->username, Auth::id(), $this->userid, route('profile', Auth::id()));
             session()->flash('message', 'Friend Request Successfully Sent!');
         }else{ //Cancel request if we press btn again
-            Friends::deleteFriend(Auth::id());
+            Friends::deleteFriend(Auth::id(), $this->userid);
             session()->flash('message', 'Friend Request has been cancelled');
             $this->content = 'Add Friend';
         }
-
     }
     public function render()
     {
         if (Friends::checkIfPending(Auth::id(), $this->userid)){
             $this->content = 'Sent!';
         }
-
         return view('livewire.add-friend-btn');
     }
     public function deleteFlash()

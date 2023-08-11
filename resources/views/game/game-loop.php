@@ -14,7 +14,9 @@ $num_players_in_game = count($players_in_game);
             Power Level: <?= $game->power_level ?><br />
             Number of Players: <?= $game->number_players ?><br />
             Format: <?= $game->format ?> <br />
-            Description: <?= $game->description ?><br />
+            <?php if ($game->description) : ?>
+                Description: <?= $game->description ?><br />
+            <?php endif; ?>
             Created By: <a href="/profile/<?=$game->created_by?>"><?= User::findUser($game->created_by)->username ?></a>
         </div>
         <div class="inner-games__options col-md-4">

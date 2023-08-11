@@ -2,7 +2,7 @@
 
 @section('content')
 
-  <div class="container lookup">
+  <div class="container white-box">
     <livewire:search :searching_for="'user'" /> 
   </div>
   

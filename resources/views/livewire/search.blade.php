@@ -1,10 +1,13 @@
 <?php
 use App\Models\User;
 ?>
+    <p class="header-text"> {{ ucfirst($searching_for) }} Search</p>
     <form method="GET" action="/search">
-        <label for="{{ $searching_for }}">Search by Username:</label>
+        <div class="search-row">
+            <label for="{{ $searching_for }}">Username:</label>
             <input type="text" name="{{ $searching_for }}" placeholder="{{ $placeholder }}" value="{{ $param }}" />
-            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button type="submit" class="btn btn-primary search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
     </form>
     <?php if ($_GET) : ?>
         <?php foreach ($results as $result) : ?>

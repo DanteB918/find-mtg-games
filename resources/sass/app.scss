@@ -42,6 +42,14 @@
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.back{
+    font-size: 1.25rem;
+    font-family: 'Sorts Mill Goudy', serif;
+    color: black;
+    &:hover{
+        color:#e65054;
+    }
+}
 
 /*
 *   Search page styles
@@ -255,6 +263,14 @@
     }
 }
 
+/*
+*   Single Game styles
+*/
+.single-game{
+    .see-game{
+        display: none;
+    }
+}
 
 /*
 *   Front Page styles (before login)

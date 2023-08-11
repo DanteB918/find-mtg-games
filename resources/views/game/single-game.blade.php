@@ -8,8 +8,10 @@ use \App\Models\Games;
 
 @section('content')
 <p align="center">Get ready for your game!</p>
-
-<div class="container">
+<p align="center">
+    <a href="{{ route('games') }}" class="back">Back to games <i class="fa-solid fa-dice-d20"></i></a>
+</p>
+<div class="container single-game">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">

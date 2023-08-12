@@ -31,7 +31,7 @@ RUN docker-php-ext-install \
     pdo_mysql
 
 #   Let users upload to the profile_pics dir
-RUN chmod 777 -R /var/www/html/public/profile_pics
+RUN chmod 777 -R /var/www/html/public/images/profile_pics
 
 # Install project dependencies
 RUN composer install --optimize-autoloader --no-dev

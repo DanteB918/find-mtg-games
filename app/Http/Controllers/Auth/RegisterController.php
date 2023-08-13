@@ -74,7 +74,7 @@ class RegisterController extends Controller
         if (isset($data['profile_pic'])){
             $image = request('profile_pic');
             $image_name = User::uploadProfilePic($image);
-    }
+        }
 
         return User::create([
             'username' => $data['username'],

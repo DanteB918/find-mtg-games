@@ -31,6 +31,7 @@ use \App\Models\User;
                         <?php if ( $user->profile_pic ) : ?>
                             <div style="display: flex; justify-content: center;">
                                 <div class="col-md-4">
+                                <em>Your current Profile Picture:</em>
                                     <img src="<?= asset('images/profile_pics/' . $user->profile_pic); ?>" class="profile-container__pic" alt="Profile pic of {{__($user->username)}}" />
                                 </div>
                             </div>

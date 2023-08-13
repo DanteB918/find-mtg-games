@@ -54,7 +54,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'first_name' => ['required', 'string', 'max:20'],
             'last_name' => ['required', 'string', 'max:20'],
-            /*'profile_pic' => ['image | mimes:jpg,jpeg,png,webp'],*/
+            'profile_pic' => ['image | nullable | mimes:jpg,jpeg,png,webp'],
             'state' => ['required', 'string', 'max:3'],
             'country' => ['required', 'string', 'max:3'],
             'username' => ['required', 'string', 'max:15', 'unique:users'],

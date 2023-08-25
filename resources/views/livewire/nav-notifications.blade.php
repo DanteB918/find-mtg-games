@@ -15,7 +15,7 @@
         <?php $notifications = Notifications::showUserNotifications(); ?>
 
 
-        <?php if (!$notifications->isEmpty()) : ?>
+        <?php if ($notifications->isNotEmpty()) : ?>
             <?php $x = 0; ?>
             <?php foreach($notifications as $notification) :  $notification->refresh(); ?>
                 <?php if ($x < 11) : ?>
@@ -29,8 +29,6 @@
                         <a href="/" class="dropdown-item"><u>See all notifications</u></a>
                     <?php endif; ?>
                 <?php endif; ?>
-
-                
             <?php endforeach; ?>
 
         <?php else : ?>

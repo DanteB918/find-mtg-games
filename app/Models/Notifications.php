@@ -31,16 +31,8 @@ class Notifications extends Model
         ->orderby('created_at', 'DESC')
         ->get();
 
-        if ($notifications->isNotEmpty()){
-            foreach($notifications as $notification)
-            {
-                echo '<li class="notify-' . $notification->id . '" onClick="deleteNotify(' . $notification->id . ')"><a class="dropdown-item" href="' . $notification->link . '">'. $notification->content . '</a></li>'
-                . ' <li><hr class="dropdown-divider"></li>';
-                $notification->fresh();
-            }
-        }else{
-            echo 'No new notifications.';
-        }
+        return $notifications;
+
     }
     public function user()
     {

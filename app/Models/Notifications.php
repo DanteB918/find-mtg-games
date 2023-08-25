@@ -24,15 +24,27 @@ class Notifications extends Model
     /**
      * Function that displays the list of notifications.
      */
-    public static function showUserNotifications(): Object
+    public static function showUserNotifications()
     {
-        $notifications = Notifications::where('to', Auth::id())
+        $notifications = Notifications::with('user')
         ->where('status', 1)
         ->orderby('created_at', 'DESC')
         ->get();
 
-        return $notifications;
-
+        if ($notifications->isNotEmpty()){
+            foreach($notifications as $notification)
+            {
+                echo '<li class="notify-' . $notification->id . '" onClick="deleteNotify(' . $notification->id . ')"><a class="dropdown-item" href="' . $notification->link . '">'. $notification->content . '</a></li>'
+                . ' <li><hr class="dropdown-divider"></li>';
+                $notification->fresh();
+            }
+        }else{
+            echo 'No new notifications.';
+        }
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'to', 'id');
     }
     public static function newNotification($message, $from, $to, $link)
     {

@@ -12,6 +12,10 @@ class Games extends Model
     use HasFactory;
     public $timestamps = false;
 
+    protected $attributes = [
+        'status' => 1,
+      ];
+
     protected $fillable = [
         'id',
         'time', 
@@ -78,7 +82,7 @@ class Games extends Model
     public static function getAllGames()
     { 
         return Games::orderby('status', 'DESC')
-        ->paginate(5);
+            ->paginate(5);
     }
     /**
     *   Logic for creating new games.
@@ -86,10 +90,12 @@ class Games extends Model
     */
     public static function createGame(array $fields)
     {
-        $status = array('status' => 1, 'created_by' => Auth::id(), 'current_players' => [Auth::id()]); //Appending required data.
+        $status = array('created_by' => auth()->id(), 'current_players' => [auth()->id()]);
+
         $all_fields = array_merge($fields, $status);
+
         $newGame = Games::create($all_fields);
-        $newGame->refresh();
+
         return $newGame;
     }
     /**
@@ -100,7 +106,6 @@ class Games extends Model
     public static function currentPlayers(int $game_id)
     {
         $the_game = Games::where('id', $game_id)->first();
-        $the_game->refresh();
         return $the_game->current_players;
     }
     /**

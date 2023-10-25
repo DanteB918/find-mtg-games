@@ -10,11 +10,10 @@ use Illuminate\Support\Facades\Auth;
 class Games extends Model
 {
     use HasFactory;
-    public $timestamps = false;
 
     protected $attributes = [
         'status' => 1,
-      ];
+    ];
 
     protected $fillable = [
         'id',
@@ -30,27 +29,29 @@ class Games extends Model
         'created_by', 
         'current_players'];
     protected $table = 'games';
-    protected $casts = [
-        'current_players' => 'array',
-      ];
+
+    public function players()
+    {
+        return $this->hasMany(PlayerGames::class, 'game_id', 'id');
+    }
 
     private function checkIfFull() //Set Status from true to false (active to inactive)
     {
-        if (count($this->current_players) >= $this->number_players){
+        if (count($this->players) >= $this->number_players){
             $this->status = false;
         }
         $this->update();
     }
     private function checkIfNotFull() //Set Status from false to true (inactive to active)
     {
-        if (count($this->current_players) < $this->number_players){
+        if (count($this->players) < $this->number_players){
             $this->status = true;
         }
         $this->update();
     }
     public function currentUserInGame() //Check if current user is a part of game.
     {
-        if(in_array(Auth::id(), $this->current_players)){
+        if(in_array(Auth::id(), $this->players)){
             return true;
         }
     }
@@ -90,11 +91,18 @@ class Games extends Model
     */
     public static function createGame(array $fields)
     {
-        $status = array('created_by' => auth()->id(), 'current_players' => [auth()->id()]);
+        $status = array('created_by' => auth()->id());
+
+        unset($fields['_token']);
 
         $all_fields = array_merge($fields, $status);
 
         $newGame = Games::create($all_fields);
+
+        PlayerGames::create([
+            'game_id' => $newGame->getKey(),
+            'player_id' => auth()->id()
+        ]);
 
         return $newGame;
     }
@@ -106,31 +114,27 @@ class Games extends Model
     public static function currentPlayers(int $game_id)
     {
         $the_game = Games::where('id', $game_id)->first();
-        return $the_game->current_players;
+        return $the_game->players;
     }
     /**
     *   Adding a player to a game once they have pressed the button to join.
     *   @param int $game_id = ID of game.  
     */
-    public static function addPlayerToGame(int $game_id)
+    public function addPlayerToGame(int $game_id)
     {
-        $game = Games::where('id', $game_id)->first();
-        foreach ($game->current_players as $player){ //Check if player applying is already a part of the game.
-            if($player === Auth::id()){
-                return false;
-            }
-        }
-        $current_users = $game->current_players;
-        array_push($current_users, Auth::id());
-        $game->current_players = $current_users;
-        $game->checkIfFull();
-        $game->update();
-        $game->refresh();
+        $game = Games::findOrFail($game_id);
+
         $username = User::returnUsername(Auth::id());
+
+        PlayerGames::create([
+            'game_id' => $game_id,
+            'player_id' => auth()->id()
+        ]);
+
         //Notify all players in the game
-        foreach ($game->current_players as $player)
+        foreach ($game->players as $player)
         {
-            if($player === Auth::id()){ 
+            if($player->player_id === Auth::id()){ 
                 Notifications::newNotification('You have successfully joined the game.', Auth::id(), $player, '/game/' . $game->id);
             }else{
                 Notifications::newNotification($username . ' has joined the game.', Auth::id(), $player, '/game/' . $game->id);

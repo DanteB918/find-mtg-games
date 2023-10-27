@@ -5,9 +5,9 @@
     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <i class="fa-regular fa-bell"></i> 
 
-        <?php if ($this->amountNotifications() > 0) : ?>
+        <?php if ($count > 0) : ?>
             
-            <p class="notification__amount"><?=$this->amountNotifications();?></p>
+            <p class="notification__amount">{{ $count }}</p>
         
         <?php endif; ?>
     </a>
@@ -27,6 +27,7 @@
                     <?php $x++; ?>
                     <?php if ($x === 11) : ?>
                         <a href="/" class="dropdown-item"><u>See all notifications</u></a>
+                        <a href="#" wire:click="deleteAllUserNotifications()" class="dropdown-item"><u>Clear All Notifications</u></a>
                     <?php endif; ?>
                 <?php endif; ?>
             <?php endforeach; ?>

@@ -52,11 +52,7 @@ class Notifications extends Model
     }
     public static function deleteNotification(int $id)
     {
-        $notification = Notifications::where('id', $id)->first();
-        try{
-            $notification->delete();
-        }catch(Exception $e){
-            echo $e->getMessage();
-        }
+        $notification = Notifications::find($id);
+        $notification->delete();
     }
 }

@@ -9,28 +9,31 @@ use Illuminate\Support\Facades\Auth;
 
 class NavNotifications extends Component
 {
+    public $count;
     public function render()
     {
+        $notifications = Notifications::where('to', Auth::id())
+            ->where('status', 1)
+            ->orderby('created_at', 'DESC')
+            ->count();
+        $this->count = $notifications;
+
         return view('livewire.nav-notifications');
     }
-    /**
-     * Display number of notifications.
-     * @return int = # of notifications
-     */
-    public static function amountNotifications()
-    {
-        $notifications = Notifications::where('to', Auth::id())
-        ->where('status', 1)
-        ->orderby('created_at', 'DESC')
-        ->get();
-        
-        return count($notifications);
-    }
+
     public function deleteAndRedirect($link, $id)
     {
         Notifications::deleteNotification($id);
+
         return redirect()->to($link);
 
+    }
+
+    public function deleteAllUserNotifications()
+    {
+        $notifications = Notifications::where('to', auth()->id())
+            ->get();
+        $notifications->each->delete();
     }
 
 

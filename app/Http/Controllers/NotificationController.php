@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
-    function deleteNotification(int $id)
+    public function deleteNotification(int $id)
     {
         Notifications::deleteNotification($id);
     }

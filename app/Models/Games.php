@@ -35,168 +35,98 @@ class Games extends Model
         return $this->hasMany(PlayerGames::class, 'game_id');
     }
 
-    private function checkIfFull() //Set Status from true to false (active to inactive)
+    private function checkIfFull(): void
     {
-        if (count($this->players) >= $this->number_players){
-            $this->status = false;
-        }
-        $this->update();
-    }
-    private function checkIfNotFull() //Set Status from false to true (inactive to active)
-    {
-        if (count($this->players) < $this->number_players){
-            $this->status = true;
-        }
-        $this->update();
-    }
-    public function currentUserInGame() //Check if current user is a part of game.
-    {
-        if(in_array(Auth::id(), $this->players)){
-            return true;
+        if ($this->players->count() >= $this->number_players){
+            $this->update(['status' => 0]);
         }
     }
-    /**
-    *   Function for returning all active games, sorted by time and date.
-    *   @return array of games that are active.
-    */
+
     public static function getActiveGames()
     { 
-        return Games::where('date', '>=', date("Y-m-d"))
-        ->where('status', 1)
-        ->orderby('date', 'ASC')
-        ->orderby('time', 'ASC')
-        ->paginate(5);
+        return Games::where('date', '>=', Now())
+            ->where('status', 1)
+            ->orderby('date', 'ASC')
+            ->orderby('time', 'ASC')
+            ->paginate(5);
     }
-    /**
-     *  Function for finding a game and returning it given the game ID
-     *  @param int $game_id
-     *  @return object of Game
-     */
-    public static function findGame(int $game_id)
-    {
-        return Games::where('id', $game_id)->first();
-    }
-    /**
-    *   Function for returning all games, sorted by status.
-    *   @return array of games
-    */
+
     public static function getAllGames()
     { 
         return Games::orderby('status', 'DESC')
             ->paginate(5);
     }
-    /**
-    *   Logic for creating new games.
-    *   @param array $fields = POST fields for creating new game.
-    */
-    public static function createGame(array $fields)
-    {
-        $status = array('created_by' => auth()->id());
 
-        unset($fields['_token']);
-
-        $all_fields = array_merge($fields, $status);
-
-        $newGame = Games::create($all_fields);
-
-        PlayerGames::create([
-            'game_id' => $newGame->getKey(),
-            'player_id' => auth()->id()
-        ]);
-
-        return $newGame;
-    }
-    /**
-    *   Function for returning array of current player's ID's registered to a game.
-    *   @param int $game_id = ID of game.  
-    *   @return array $the_game->current_players = ID's of all players in game.
-    */
-    public static function currentPlayers(int $game_id)
-    {
-        $the_game = Games::where('id', $game_id)->first();
-        return $the_game->players;
-    }
-    /**
-    *   Adding a player to a game once they have pressed the button to join.
-    *   @param int $game_id = ID of game.  
-    */
-    public function addPlayerToGame(int $game_id)
+    public function addPlayerToGame(int $game_id): void
     {
         $game = Games::findOrFail($game_id);
 
-        $username = User::returnUsername(Auth::id());
+        $game->checkIfFull();
+
+        abort_if($game->status == 0, 403);
+
 
         PlayerGames::create([
             'game_id' => $game_id,
             'player_id' => auth()->id()
         ]);
 
-        //Notify all players in the game
-        foreach ($game->players as $player)
-        {
-            if($player->player_id === Auth::id()){ 
-                Notifications::newNotification('You have successfully joined the game.', Auth::id(), $player, '/game/' . $game->id);
+        foreach ($game->players as $player) {
+            $player = $player->player;
+
+            if($player->getKey() === Auth::id()){ 
+                Notifications::newNotification('You have successfully joined the game.', Auth::id(), $player->getKey(), '/game/' . $game->id);
             }else{
-                Notifications::newNotification($username . ' has joined the game.', Auth::id(), $player, '/game/' . $game->id);
+                Notifications::newNotification($player->username . ' has joined the game.', Auth::id(), $player->getKey(), '/game/' . $game->id);
             }
         }
     }
-    /**
-    *   Removing player from game once they have pressed the leave game button.
-    *   @param int $game_id = ID of game.  
-    */
-    public static function leaveGame(int $game_id)
+
+    public static function leaveGame(int $game_id): void
     {
-        $game = Games::where('id', $game_id)->first();
-        if (in_array(Auth::id(), $game->current_players) && Auth::id() != $game->created_by){
-            $game_without_user = array_diff($game->current_players, [Auth::id()]);
-            $game->current_players = $game_without_user;
+        $game = Games::findOrFail($game_id);
+
+        if ($game->players->contains(auth()->id()) && auth()->id() != $game->created_by){
+            $game->players->each(function($player) {
+                auth()->id() === $player->player_id ? $player->delete() : null;
+            });
         }
-        $game->checkIfNotFull();
-        $game->update();
-        $game->refresh();
-        $username = User::returnUsername(Auth::id());
-        //Notify all players in the game
-        foreach ($game->current_players as $player)
-        {
-            if($player === Auth::id()){ 
-                Notifications::newNotification('You have left the game.', Auth::id(), $player, '/game/' . $game->id);
+
+        $game->update(['status' => 1]);
+
+        foreach ($game->players as $player) {
+            $player = $player->player;
+            if($player->getKey() === auth()->id()){ 
+                Notifications::newNotification('You have left the game.', auth()->id(), $player->getKey(), '/game/' . $game->getKey());
             }else{
-                Notifications::newNotification($username . ' has left the game.', Auth::id(), $player, '/game/' . $game->id);
+                Notifications::newNotification($player->username . ' has left the game.', auth()->id(), $player->getKey(), '/game/' . $game->getKey());
             }
         }
     }
-    /**
-     *   Handle deleting games, only by 
-     *   @param int $game_id = ID of game.  
-     */
-    public static function deleteGame(int $game_id)
+
+    public static function deleteGame(int $game_id): void
     {
-        $game = Games::where('id', $game_id)->first();
-        if ($game->created_by === Auth::id()){
-            $username = User::returnUsername(Auth::id());
-            //Notify all players in the game
-            foreach ($game->current_players as $player)
-            {
-                if($player === Auth::id()){ 
-                    continue;
-                }else{
-                    Notifications::newNotification($username . ' has deleted the game.', Auth::id(), $player, '#');
-                }
+        $game = Games::findOrFail($game_id);
+
+        abort_if(! $game->created_by === Auth::id(), 403);
+
+        foreach ($game->players as $player) {
+
+            $player = $player->player;
+
+            if(! $player->getKey() === Auth::id()){ 
+                Notifications::newNotification($player->username . ' has deleted the game.', auth()->id(), $player->getKey(), '#');
             }
-            $game->delete();
-        }else{
-            echo 'invalid user';
         }
+
+        $game->delete();
     }
-    /**
-     * Showing All Games for a given user.
-     * @return array $userGames = array of games that the user is part of.
-     */
+
     public function showUsersGames()
     {
-        return Games::orderby('status', 'DESC')
+        return Games::where('status', 1)
             ->with('players', fn($q) => $q->where('player_id', auth()->id()))
+            ->orderby('status', 'DESC')
             ->paginate(5);
     }
 }

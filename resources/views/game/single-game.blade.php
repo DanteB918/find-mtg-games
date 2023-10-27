@@ -22,7 +22,6 @@ use \App\Models\Games;
                     <div class="outter-games">
                         @include('game.game-loop')
                     </div>
-                  
                     @else
                     <p>Game not found.</p>
                     @endif

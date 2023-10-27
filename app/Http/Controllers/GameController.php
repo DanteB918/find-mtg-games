@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 use App\Models\Games;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class GameController extends Controller
 {
@@ -14,19 +13,19 @@ class GameController extends Controller
         $this->game = new Games();
     }
 
-    public function showGames(): View
+    public function showGames()
     {
-        $games = Games::getActiveGames();
+        $games = $this->game->getActiveGames();
         return view('game.games', compact('games'));
     }
-    public function showMyGames(): View
+    public function showMyGames()
     {
         $games = $this->game->showUsersGames();
         return view('game.my-games', compact('games'));
     }
     public function deleteGame(int $game_id)
     {
-        Games::deleteGame($game_id);
+        $this->game->deleteGame($game_id);
     }
     /**
     *   Request to join a game logic
@@ -34,7 +33,7 @@ class GameController extends Controller
     */
     public function requestJoin(int $game_id)
     {
-        Games::addPlayerToGame($game_id);
+        $this->game->addPlayerToGame($game_id);
         return redirect()->back();
     }
     /**
@@ -43,35 +42,37 @@ class GameController extends Controller
     */
     public function leaveGame(int $game_id)
     {
-        Games::leaveGame($game_id);
+        $this->game->leaveGame($game_id);
         return redirect()->back();
     }
     /**
      *  Single Game Page
      */
-    public function singleGame(Games $game)
+    public function singleGame(int $game_id)
     {
+        $game = Games::findOrFail($game_id);
+
         return view('game.single-game', compact('game'));
     }
     /**
     *   Create Game logic
     */
-    public function createGameForm(): View
+    public function createGameForm()
     {
         return view('game.game-form');
     }
     public function createGame(Request $request)
     {
-        $request->validate([
-            'time' => ['required', 'string', 'max:30'],
-            'date' => ['required', 'string', 'max:10'],
-            'state' => ['required', 'string', 'max:3'],
-            'country' => ['required', 'string', 'max:3'],
-            'power_level' => ['required', 'integer', 'max:10', 'min:1'],
-            'number_players' => ['required', 'integer'],
-            'format' => ['required', 'string'],
-            'description' => ['nullable', 'string', 'min:10', 'max:200'],
-        ]);
+        // $request->validate([
+        //     'time' => ['required', 'string', 'max:30'],
+        //     'date' => ['required', 'string', 'max:10'],
+        //     'state' => ['required', 'string', 'max:3'],
+        //     'country' => ['required', 'string', 'max:3'],
+        //     'power_level' => ['required', 'integer', 'max:10', 'min:1'],
+        //     'number_players' => ['required', 'integer'],
+        //     'format' => ['required', 'string'],
+        //     'description' => ['nullable', 'string', 'min:10', 'max:200'],
+        // ]);
 
         $newGame = Games::create([
             'time' => request()->input('time'),
@@ -90,11 +91,9 @@ class GameController extends Controller
             'player_id' => auth()->id()
         ]);
 
-        // $newGame = Games::createGame($request->all());
         session()->flash('message', 'Game successfully created');
 
         return redirect()->to(route('singleGame', $newGame));
-
     }
 
 }

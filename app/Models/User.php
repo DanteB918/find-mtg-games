@@ -63,7 +63,7 @@ class User extends Authenticatable
                 $image->move(public_path('images/profile_pics'), $image_name);
                 return $image_name;
             }
-            
+
         }catch (\Exception $e){
             abort(403, $e->getMessage());
         }
@@ -102,28 +102,5 @@ class User extends Authenticatable
             echo '<span style="color: red;">&#9679;</span> Offline';
         }
     }
-    /**
-    *   Finding User by ID
-    *   @param int $id = User ID.
-    *   @return User $user
-    */
-    public static function findUser(int $id)
-    {
-        $user = User::where('id', $id)->first();
-        $user->refresh();
-        return $user;
-    }
-    public static function showAllUsersInArray(array $ids){ // Takes array of ID's and returns the users with those ids.
-        $x = [];
-        foreach($ids as $id){
-            $the_user = User::where('id', $id)->first();
-            array_push($x, $the_user);
-        }
-        return $x;
-    }
-    public static function returnUsername(int $user_id)
-    {
-        $user = User::where('id', $user_id)->first();
-        return $user->username;
-    }
+
 }

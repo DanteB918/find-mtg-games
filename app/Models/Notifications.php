@@ -40,7 +40,14 @@ class Notifications extends Model
     }
     public static function newNotification($message, $from, $to, $link)
     {
-        $the_notification = array('status' => 1, 'content' => $message, 'from' => $from, 'to' => $to, 'link' => $link ); //Appending required data.
+        $the_notification = [
+            'status' => 1, 
+            'content' => $message, 
+            'from' => $from, 
+            'to' => $to,
+            'link' => $link 
+        ]; //Appending required data.
+
         Notifications::create($the_notification);
     }
     public static function deleteNotification(int $id)

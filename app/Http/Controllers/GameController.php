@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 use App\Models\Games;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
 {
+    protected Games $game;
+
+    public function __construct(Games $game)
+    {
+        $this->game = new Games();
+    }
+
     public function showGames(): View
     {
         $games = Games::getActiveGames();
@@ -15,7 +21,7 @@ class GameController extends Controller
     }
     public function showMyGames(): View
     {
-        $games = Games::showUsersGames();
+        $games = $this->game->showUsersGames();
         return view('game.my-games', compact('games'));
     }
     public function deleteGame(int $game_id)
@@ -43,9 +49,8 @@ class GameController extends Controller
     /**
      *  Single Game Page
      */
-    public function singleGame(int $game_id)
+    public function singleGame(Games $game)
     {
-        $game = Games::findGame($game_id);
         return view('game.single-game', compact('game'));
     }
     /**
@@ -67,9 +72,28 @@ class GameController extends Controller
             'format' => ['required', 'string'],
             'description' => ['nullable', 'string', 'min:10', 'max:200'],
         ]);
-        $newGame = Games::createGame($request->all());
+
+        $newGame = Games::create([
+            'time' => request()->input('time'),
+            'date' => request()->input('date'),
+            'state' => request()->input('state'),
+            'country' => request()->input('country'),
+            'created_by' => auth()->id(),
+            'power_level' => request()->input('power_level'),
+            'number_players' => request()->input('number_players'),
+            'format' => request()->input('format'),
+            'description' => request()->input('description'),
+        ]);
+
+        \App\Models\PlayerGames::create([
+            'game_id' => $newGame->getKey(),
+            'player_id' => auth()->id()
+        ]);
+
+        // $newGame = Games::createGame($request->all());
         session()->flash('message', 'Game successfully created');
-        return redirect()->to(route('singleGame', $newGame->id));
+
+        return redirect()->to(route('singleGame', $newGame));
 
     }
 

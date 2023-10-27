@@ -32,7 +32,7 @@ class Games extends Model
 
     public function players()
     {
-        return $this->hasMany(PlayerGames::class, 'game_id', 'id');
+        return $this->hasMany(PlayerGames::class, 'game_id');
     }
 
     private function checkIfFull() //Set Status from true to false (active to inactive)
@@ -193,8 +193,10 @@ class Games extends Model
      * Showing All Games for a given user.
      * @return array $userGames = array of games that the user is part of.
      */
-    public static function showUsersGames()
+    public function showUsersGames()
     {
-        return Games::orderby('status', 'DESC')->whereJsonContains('current_players', [Auth::id()] )->paginate(5);
+        return Games::orderby('status', 'DESC')
+            ->with('players', fn($q) => $q->where('player_id', auth()->id()))
+            ->paginate(5);
     }
 }

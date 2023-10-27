@@ -22,7 +22,7 @@ class PlayerGames extends Model
     }
     public function player()
     {
-        return $this->hasOne(User::class, 'id', 'game_id');
+        return $this->hasOne(User::class, 'id', 'player_id');
     }
 
 }

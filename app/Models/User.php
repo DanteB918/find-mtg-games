@@ -72,6 +72,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
     }
+
+    public function games()
+    {
+        return $this->hasMany(Games::class, 'created_by');
+    }
     /**
      * Lists out all users.
      */

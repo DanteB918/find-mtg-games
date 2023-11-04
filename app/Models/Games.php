@@ -82,6 +82,11 @@ class Games extends Model
         }
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id', 'created_by');
+    }
+
     public static function leaveGame(int $game_id): void
     {
         $game = Games::findOrFail($game_id);

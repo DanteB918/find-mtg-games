@@ -30,6 +30,16 @@ class Games extends Model
         'current_players'];
     protected $table = 'games';
 
+    protected static function booted()
+    {
+        static::created(function ($newGame) {
+            PlayerGames::create([
+                'game_id' => $newGame->getKey(),
+                'player_id' => $newGame->created_by
+            ]);
+        });
+    }
+
     public function players()
     {
         return $this->hasMany(PlayerGames::class, 'game_id');

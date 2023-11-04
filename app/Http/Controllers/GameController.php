@@ -87,11 +87,6 @@ class GameController extends Controller
             'description' => request()->input('description'),
         ]);
 
-        \App\Models\PlayerGames::create([
-            'game_id' => $newGame->getKey(),
-            'player_id' => auth()->id()
-        ]);
-
         session()->flash('message', 'Game successfully created');
 
         return redirect()->to(route('singleGame', $newGame));

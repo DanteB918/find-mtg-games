@@ -20,9 +20,7 @@ use \App\Models\Games;
                 <div class="card-body">
                     @if ($games)
                     <div class="outter-games">
-                            @foreach($games as $game)
-                                @include('game.game-loop')
-                            @endforeach
+                        @each('game.game-loop', $games, 'game')
                     </div>
                     {{$games->links()}}
                     @else

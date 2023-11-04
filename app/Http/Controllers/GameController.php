@@ -21,6 +21,7 @@ class GameController extends Controller
     public function showMyGames()
     {
         $games = $this->game->showUsersGames();
+
         return view('game.my-games', compact('games'));
     }
     public function deleteGame(int $game_id)

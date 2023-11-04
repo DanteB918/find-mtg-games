@@ -130,7 +130,7 @@ class Games extends Model
     public function showUsersGames()
     {
         return Games::where('status', 1)
-            ->with('players', fn($q) => $q->where('player_id', auth()->id()))
+            ->whereHas('players', fn($q) => $q->where('player_id', auth()->id()))
             ->orderby('status', 'DESC')
             ->paginate(5);
     }

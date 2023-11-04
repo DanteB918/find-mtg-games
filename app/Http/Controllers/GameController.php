@@ -63,16 +63,16 @@ class GameController extends Controller
     }
     public function createGame(Request $request)
     {
-        // $request->validate([
-        //     'time' => ['required', 'string', 'max:30'],
-        //     'date' => ['required', 'string', 'max:10'],
-        //     'state' => ['required', 'string', 'max:3'],
-        //     'country' => ['required', 'string', 'max:3'],
-        //     'power_level' => ['required', 'integer', 'max:10', 'min:1'],
-        //     'number_players' => ['required', 'integer'],
-        //     'format' => ['required', 'string'],
-        //     'description' => ['nullable', 'string', 'min:10', 'max:200'],
-        // ]);
+        $request->validate([
+            'time' => ['required', 'string', 'max:30'],
+            'date' => ['required', 'string', 'max:10'],
+            'state' => ['required', 'string', 'max:3'],
+            'country' => ['required', 'string', 'max:3'],
+            'power_level' => ['required', 'integer', 'max:10', 'min:1'],
+            'number_players' => ['required', 'integer'],
+            'format' => ['required', 'string'],
+            'description' => ['nullable', 'string', 'min:10', 'max:200'],
+        ]);
 
         $newGame = Games::create([
             'time' => request()->input('time'),

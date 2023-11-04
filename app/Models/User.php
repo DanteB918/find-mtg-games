@@ -68,6 +68,10 @@ class User extends Authenticatable
             abort(403, $e->getMessage());
         }
     }
+    public function friends()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
+    }
     /**
      * Lists out all users.
      */
@@ -87,7 +91,10 @@ class User extends Authenticatable
      */
     public static function howManyUsers(): int
     {
-        return count(User::all());
+        if (! cache()->has('UserCount')) {
+            cache()->put('UserCount', count(User::all()), now()->addDay());
+        }
+        return cache()->get('UserCount');
     }
     /**
      * Check current sessions on site to see if a user is online or offline.

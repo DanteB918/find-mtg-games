@@ -5,29 +5,27 @@
 @extends('layouts.app')
 
 @section('content')
-    <?php $friends = Friends::getAllUsersFriends(); ?>
-		<div class="white-box container">
+        <div class="white-box container">
             <h1 class="header-text">Friends list:</h1>
-            <?php if ( $friends ) : ?>
-                <?php foreach( $friends as $result ) : ?>
+            @if ( $friends->isNotEmpty() )
+                <?php foreach( $friends as $friend ) : ?>
                     <div class="row loop-border search">
                     <div class="col-3">
-                        <a href="{{ route('profile', $result->id) }}">
-                            <img src="<?= asset('images/profile_pics/' . $result->profile_pic); ?>" class="profile-container__pic" alt="Profile pic of {{__($result->username)}}" />
+                        <a href="{{ route('profile', $friend->id) }}">
+                            <img src="<?= asset('images/profile_pics/' . $friend->profile_pic); ?>" class="profile-container__pic" alt="Profile pic of {{__($friend->username)}}" />
                         </a>
                     </div>
                     <div class="col-7">
-                        <a href="{{ route('profile', $result->id) }}"><?=$result->username;?></a>
-                        <p>Location: <span>{{ $result->state }}, {{ $result->country }}</span></p>
+                        <a href="{{ route('profile', $friend->id) }}"><?=$friend->username;?></a>
+                        <p>Location: <span>{{ $friend->state }}, {{ $friend->country }}</span></p>
                     </div>
                     <div class="col-2">
-                        <p><?= User::currentUserOnlineStatus($result->id); ?></p>
+                        <p><?= User::currentUserOnlineStatus($friend->id); ?></p>
                     </div>
                 </div>
                 <?php endforeach; ?>
-            <?php else : ?>
+            @else
                 <p>No friends on file... yet!</p>
-            <?php endif; ?>
-            
-		</div>
+            @endif
+        </div>
 @endsection

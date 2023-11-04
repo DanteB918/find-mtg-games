@@ -1,7 +1,5 @@
 <?php
 use \App\Models\User;
-use App\Models\Friends;
-use Illuminate\Support\Facades\Auth;
 ?>
 
 @extends('layouts.app')
@@ -11,24 +9,25 @@ use Illuminate\Support\Facades\Auth;
 <div class="container profile-container">
     <div class="row align-items-center">
         <div class="col-md-4">
-            <img src="<?= asset('images/profile_pics/' . $user->profile_pic); ?>" class="profile-container__pic" alt="Profile pic of {{__($user->username)}}" />
+            <img src="{{ asset('images/profile_pics/' . $user->profile_pic) }}" class="profile-container__pic" alt="Profile pic of {{__($user->username)}}" />
         </div>
         <div class="col-md-8">
             <p><span class="profile-container__username">{{$user->username}}</span></p>
-            <p><?= User::currentUserOnlineStatus($user->id); ?></p>
+            <p>{{ $user->currentUserOnlineStatus($user->id) }}</p>
             <p>Location: <span>{{ $user->state }}, {{ $user->country }}</span></p>
             <p>Member Since: <span><?= date('Y-m-d', strtotime($user->created_at)); ?></span></p>
-            <?php if ( Friends::checkIfFriends(Auth::id(), $user->id) ) : //let user know if this person is a friend! ?>
+            @if($user->with('friends')->get()->contains(auth()->user()))
                 <p>You are friends with this user.</p>
-            <?php endif; ?>
+            @endif
         </div>
 
-        <?php if( Auth::id() === $user->id ): //Show only if logged in user is same as current user. ?>
+        @if( auth()->id() === $user->getKey() )
             <hr>
-            <a href="/profile/{{Auth::id()}}/edit">Edit Profile</a>    
-        <?php elseif(Auth::check()): ?>
+            <a href="/profile/{{ auth()->id() }}/edit">Edit Profile</a>    
+        @elseif (auth()->check())
             <livewire:add-friend-btn :user="$user" /> 
-        <?php endif; ?>
+        @endif
+
         <p></p>
     </div>
 </div>

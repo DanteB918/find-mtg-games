@@ -4,24 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\User;
+use \App\Models\Friends;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public $friends;
+
+    public function __construct(Friends $friends)
+    {
+        $this->friends = new Friends();
+    }
+
     /**
      * find profile by ID and display on front-end
      * @param int $id = id of user
      */
     public function findProfile(int $id) 
     {
-        $user = DB::table('users')->find($id);
-        if( $user ){
-            return view('users.profile', compact('user'));
-        }else{
-            echo 'user not found';
-        }
+        $user = User::findOrFail($id);
+        return view('users.profile', compact('user'));
+
     }
 
     public function search(): view 
@@ -62,7 +67,9 @@ class UserController extends Controller
     }
     public function friendsList(): View
     {
-        return view('users.friendlist');
+        $friends = $this->friends->getAllUsersFriends();
+
+        return view('users.friendlist', compact('friends'));
     }
     /**
     *   Logic for Editting user data

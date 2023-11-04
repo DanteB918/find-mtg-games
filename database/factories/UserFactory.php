@@ -22,7 +22,7 @@ class UserFactory extends Factory
             'profile_pic' => 'wiz-profile-pic.png',
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
-            'country' => fake()->country(),
+            'country' => fake()->countryCode(),
             'state' => 'DE',
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),

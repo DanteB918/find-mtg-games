@@ -23,7 +23,7 @@ class GamesFactory extends Factory
             'description' => fake()->text(),
             'status' => 1,
             'state' => 'DE',
-            'country' => fake()->country(),
+            'country' => fake()->countryCode(),
             'number_players' => fake()->randomNumber(1),
             'date' => now()->addCentury(),
             'time' => fake()->time(),

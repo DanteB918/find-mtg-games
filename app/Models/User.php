@@ -50,6 +50,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     /**
     *   Upload profile pics, should return image name.
     *   @param $image 
@@ -68,9 +69,21 @@ class User extends Authenticatable
             abort(403, $e->getMessage());
         }
     }
-    public function friends()
+
+    public function friendWith()
     {
         return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id');
+    }
+
+    public function friendOf()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'friend_id', 'user_id');
+    }
+
+    public function allFriends()
+    {
+      $friendsOne = $this->friendOf()->get();
+      return $friendsOne->merge($this->friendWith()->get());
     }
 
     public function games()
@@ -91,6 +104,7 @@ class User extends Authenticatable
                     echo $user->username . " is offline <br>";
             }
     }
+
     /**
      * @return int # of users
      */
@@ -101,6 +115,7 @@ class User extends Authenticatable
         }
         return cache()->get('UserCount');
     }
+
     /**
      * Check current sessions on site to see if a user is online or offline.
      */

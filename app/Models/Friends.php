@@ -6,14 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use SebastianBergmann\Type\VoidType;
 
 class Friends extends Model
 {
     use HasFactory;
-
-    public $timestamps = false;
-
     protected $fillable = [
         'id',
         'user_id',
@@ -22,33 +18,50 @@ class Friends extends Model
     ];
     protected $table = 'friends';
 
-    public static function getAllUsersFriends()
+    public function getAllUsersFriends()
     {
-        $user_id = Auth::id();
-        
-        $friends = Friends::where(function ($query) use ($user_id) {
-            $query->where('user_id', $user_id)->where('status', 1);
-        })->orWhere(function ($query) use ($user_id) {
-            $query->where('friend_id', $user_id)->where('status', 1);
-        })->get();
+        $friends = Friends::active()
+            ->where(function ($query) {
+                $query->where('user_id', auth()->id())
+                    ->orWhere('friend_id', auth()->id());
+            })
+            ->get();
 
         $friend_list = [];
+
         foreach ($friends as $friend){ //find all ID's now other than users.
-            if ($friend->user_id != Auth::id()){
+            if ($friend->user_id != auth()->id()){
                 $friend_list[] = $friend->user_id;
             }
-            if ($friend->friend_id != Auth::id()){
+            if ($friend->friend_id != auth()->id()){
                 $friend_list[] = $friend->friend_id;
             }
         }
+
         //now that all  users are appended to list, let's get all of their User objects.
-        $final_list = [];
+        $final_list = collect();
+
         foreach ($friend_list as $friend){
-            $final_list[] = User::find($friend);
+            $final_list->push(User::find($friend));
         }
 
         return $final_list;
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('status', 1);
+    }
+
+    public function userOne()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function userTwo()
+    {
+        return $this->belongsTo(User::class, 'friend_id');
+    }
+
     public static function addFriend(int $friend_id)
     {
         $all_fields = array('status' => 0, 'user_id' => Auth::id(), 'friend_id' => $friend_id); //Appending required data.

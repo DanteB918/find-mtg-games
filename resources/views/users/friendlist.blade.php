@@ -1,5 +1,4 @@
 <?php
-    use App\Models\Friends;
     use App\Models\User;
 ?>
 @extends('layouts.app')

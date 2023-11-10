@@ -4,19 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use \App\Models\User;
-use \App\Models\Friends;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public $friends;
-
-    public function __construct(Friends $friends)
-    {
-        $this->friends = new Friends();
-    }
 
     /**
      * find profile by ID and display on front-end
@@ -67,7 +60,7 @@ class UserController extends Controller
     }
     public function friendsList(): View
     {
-        $friends = $this->friends->getAllUsersFriends();
+        $friends = auth()->user()->allFriends();
 
         return view('users.friendlist', compact('friends'));
     }

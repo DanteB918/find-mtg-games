@@ -16,7 +16,7 @@ use \App\Models\User;
             <p>{{ $user->currentUserOnlineStatus($user->id) }}</p>
             <p>Location: <span>{{ $user->state }}, {{ $user->country }}</span></p>
             <p>Member Since: <span><?= date('Y-m-d', strtotime($user->created_at)); ?></span></p>
-            @if($user->with('friends')->get()->contains(auth()->user()))
+            @if($user->allFriends()->contains(auth()->user()))
                 <p>You are friends with this user.</p>
             @endif
         </div>
